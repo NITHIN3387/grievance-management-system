@@ -11,10 +11,9 @@ const user = db.collection('users')                 //creating a user table in d
 const userRegister = async (req, res) => {
     const { name, email, mobile, address, password } = req.body
 
-    const data = await user.where('email', '==', email).get()
-    console.log(data);               //getting user who has email id which matches the email id get from request
+    const data = await user.where('email', '==', email).get()    //getting user who has email id which matches the email id get from request
     const duplicateUser = data.docs.map((doc) => doc.data())                //mapping the user data to duplicatedUser variable
-    console.log(duplicateUser);
+
     if (duplicateUser.length)               //checking whether the email id get from request is already registered or not
         res.status(409).send({ message: 'email already registered', status: 'duplicate' })
     else {
@@ -51,16 +50,17 @@ const userRegister = async (req, res) => {
 //access: Public
 const userLogin = async (req, res) => {
     const { email, password } = req.body;   //extract email and password from the request
-    const validUser = await user.where('email', '==', email).get();     //compare if email exists in database
-    const userdata = validUser.docs.map((doc) => ({ _id: doc.id, ...doc.data() }))      //map the data
-    if (userdata.length) {              //checking whether the email id is exist or not in db
-        if (await bcrypt.compare(password, userdata[0].password)) {     //comparing password with hash code stored in database
+    const fetchData = await user.where('email', '==', email).get();     //compare if email exists in database
+    const userData = fetchData.docs.map((doc) => ({ _id: doc.id, ...doc.data() }))      //map the data
+
+    if (userData.length) {              //checking whether the email id is exist or not in db
+        if (await bcrypt.compare(password, userData[0].password)) {     //comparing password with hash code stored in database
             //generate jwt token
             const token = jwt.sign(
                 {
-                    _id: userdata._id,
-                    name: userdata.name,
-                    email: userdata.email
+                    _id: userData._id,
+                    name: userData.name,
+                    email: userData.email
                 },
                 process.env.SECRET_KEY,
                 { expiresIn: '7d' }
@@ -73,11 +73,13 @@ const userLogin = async (req, res) => {
                 maxAge: 604800000,
                 secure: true,
             })
-                res.send({ message: "user loged in successfully", token: token, status: "success" })
+
+            res.send({ message: "user loged in successfully", data: userData, status: "success" })
         } else
             res.send({ message: "incorrect password" , status: "password-err"})
-    } else {
+    } else
         res.send({ message: 'incorrect email', status: "email-err" })
-    }
+
 }
+
 module.exports = { userRegister, userLogin }
