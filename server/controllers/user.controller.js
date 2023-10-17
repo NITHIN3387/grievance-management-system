@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const db = require('../config/dbConnection');
 const user = db.collection('users')                 //creating a user table in db
@@ -8,40 +9,75 @@ const user = db.collection('users')                 //creating a user table in d
 //method: POST
 //access: Public
 const userRegister = async (req, res) => {
-    const {name, email, mobile, address, password} = req.body
+    const { name, email, mobile, address, password } = req.body
 
-    const data = await user.where('email', '==', email).get()               //getting user who has email id which matches the email id get from request
+    const data = await user.where('email', '==', email).get()
+    console.log(data);               //getting user who has email id which matches the email id get from request
     const duplicateUser = data.docs.map((doc) => doc.data())                //mapping the user data to duplicatedUser variable
-
+    console.log(duplicateUser);
     if (duplicateUser.length)               //checking whether the email id get from request is already registered or not
-        res.status(409).send({message: 'email already registered', status: 'duplicate'})
-    else{
+        res.status(409).send({ message: 'email already registered', status: 'duplicate' })
+    else {
         //converting the raw password get from request to a hash code to store in the database
         await bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS))
-        .then((salt) => (
-            bcrypt.hash(password, salt)
-        ))
-        .then(async (hash) => {
-            // adding user details to db 
-            await user.add({
-                name,
-                email,
-                mobile,
-                address,
-                password: hash
-            })
-            .then(() => {
-                res.status(200).send({msg: 'user details added to db successfully', status: 'success'})
+            .then((salt) => (
+                bcrypt.hash(password, salt)
+            ))
+            .then(async (hash) => {
+                // adding user details to db 
+                await user.add({
+                    name,
+                    email,
+                    mobile,
+                    address,
+                    password: hash
+                })
+                    .then(() => {
+                        res.status(200).send({ msg: 'user details added to db successfully', status: 'success' })
+                    })
+                    .catch((err) => {
+                        res.status(500).send({ msg: 'fail to add user details to db', status: 'failure' })
+                        console.log(err);
+                    })
             })
             .catch((err) => {
-                res.status(500).send({msg: 'fail to add user details to db', status: 'failure'})
-                console.log(err);
+                console.log('fail to hash the password\n', err);
             })
-        })
-        .catch((err) => {
-            console.log('fail to hash the password\n', err);
-        })
     }
 }
 
-module.exports = {userRegister}
+//discription: Login controll
+//method: POST
+//access: Public
+const userLogin = async (req, res) => {
+    const { email, password } = req.body;   //extract email and password from the request
+    const validUser = await user.where('email', '==', email).get();     //compare if email exists in database
+    const userdata = validUser.docs.map((doc) => ({ _id: doc.id, ...doc.data() }))      //map the data
+    if (userdata.length) {              //checking whether the email id is exist or not in db
+        if (await bcrypt.compare(password, userdata[0].password)) {     //comparing password with hash code stored in database
+            //generate jwt token
+            const token = jwt.sign(
+                {
+                    _id: userdata._id,
+                    name: userdata.name,
+                    email: userdata.email
+                },
+                process.env.SECRET_KEY,
+                { expiresIn: '7d' }
+            )
+            //storing the generated token in cookie
+            res.cookie('token', token, {
+                withCredentials: true,
+                httpOnly: true,
+                sameSite: 'None',
+                maxAge: 604800000,
+                secure: true,
+            })
+                res.send({ message: "user loged in successfully", token: token, status: "success" })
+        } else
+            res.send({ message: "incorrect password" , status: "password-err"})
+    } else {
+        res.send({ message: 'incorrect email', status: "email-err" })
+    }
+}
+module.exports = { userRegister, userLogin }
