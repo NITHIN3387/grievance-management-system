@@ -1,8 +1,11 @@
+import WebsiteLayout from '@layouts/WebsiteLayout'
 import React from 'react'
 
 const Dashboard = ({params}) => {
   return (
-    <div>User Dashboard <br/> user id: {params.user_id}</div>
+    <WebsiteLayout>
+      User Dashboard <br/> user id: {params.user_id}
+    </WebsiteLayout>
   )
 }
 
