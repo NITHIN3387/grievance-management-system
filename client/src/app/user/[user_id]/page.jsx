@@ -4,7 +4,7 @@ import React from 'react'
 const Dashboard = ({params}) => {
   return (
     <WebsiteLayout>
-      User Dashboard <br/> user id: {params.user_id}
+      user id: {params.user_id}
     </WebsiteLayout>
   )
 }

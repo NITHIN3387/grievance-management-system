@@ -354,7 +354,7 @@ const Register = () => {
             {/* link to Login page  */}
             <div className="flex gap-1 sm:mb-0 mb-5">
               <p>Already have an accout?</p>
-              <Link href="/login" className=" text-blue-600 font-semibold">
+              <Link href="/login" className="text-blue-600 font-semibold">
                 Log in
               </Link>
             </div>

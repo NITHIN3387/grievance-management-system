@@ -19,3 +19,18 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.load-dialog-box{
+  animation: load-dialog-box ease-out 0.5s forwards;
+}
+
+@keyframes load-dialog-box {
+  0%{
+    transform: translateY(-3rem);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
