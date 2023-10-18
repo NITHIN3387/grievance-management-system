@@ -76,10 +76,28 @@ const userLogin = async (req, res) => {
 
             res.send({ message: "user loged in successfully", data: userData, status: "success" })
         } else
-            res.send({ message: "incorrect password" , status: "password-err"})
+            res.send({ message: "incorrect password", status: "password-err" })
     } else
         res.send({ message: 'incorrect email', status: "email-err" })
 
 }
 
-module.exports = { userRegister, userLogin }
+const getUser = async (req, res) => {
+    const id = req.params.id;//get the id from api
+    user.doc(id)//checking the database if the id exists
+        .get()
+        .then((doc) => {//id data exist
+            if (doc.exists) {
+                const userdata = doc.data()//storing the data in userdata
+                res.send(userdata)
+            }
+            else {// if data doesnot exist
+                res.status(404)
+                res.send({message:"User with provided id doesnot exist", status:"fail"})
+            }
+        }).catch((error) => {
+            console.error("Error in getting userdata",error)
+        })
+}
+
+module.exports = { userRegister, userLogin, getUser }
