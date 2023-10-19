@@ -4,6 +4,7 @@ const firebaseConfig = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
     projectId: process.env.PROJECT_ID,
+    databaseURL: process.env.DATABASE_URL,
     storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
     appId: process.env.APP_ID,
@@ -12,12 +13,14 @@ const firebaseConfig = {
 
 const serviceAccount = require('../serviceAccount.json')
 
-admin.initializeApp({
+const app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     ...firebaseConfig
 })
 
 const db = admin.firestore()
+
+const storage = admin.storage(app)
 
 //checking whether the db connection is successfull or not
 db.listCollections()
@@ -28,4 +31,4 @@ db.listCollections()
     console.log('fail to connect database\n', err);
 })
 
-module.exports = db
+module.exports = {db, firebaseConfig}

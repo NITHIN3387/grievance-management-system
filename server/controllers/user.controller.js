@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const db = require('../config/dbConnection');
+const {db} = require('../config/dbConnection');
 const user = db.collection('users')                 //creating a user table in db
 
 
