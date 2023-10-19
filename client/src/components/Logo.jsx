@@ -11,7 +11,6 @@ const Logo = () => {
             src={LogoImg}
             alt='logo'
             width={55}
-            property
         />
         {/* title  */}
         <div className='grid ps-5 leading-3'>

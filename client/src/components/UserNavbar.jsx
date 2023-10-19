@@ -17,8 +17,8 @@ const Navbar = ({display}) => {
                 <span className='text-[1.25em] text-white' onClick={() => display(true)}>Raise the problem</span>
 
                 {/* profile and user name with logout button  */}
-                <span className='flex gap-[0.7rem] border-s-2 border-s-white ps-5'>
-                    <span className='text-[1.25em] text-white'>User 1</span>
+                <span className='flex items-center border-s-2 border-s-white ps-5'>
+                    <span className='text-[1em] text-white pe-4'>User Name</span>
                     <Image 
                         src={Logout}
                         alt={'logout'}

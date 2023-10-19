@@ -9,14 +9,23 @@ const DialogBoxGrievance = ({display, hide}) => {
     if (!display) return null
 
     //variables to store the input given by user
+    const [description, setDescription] = useState("")
     const [date, setDate] = useState(new Date().toISOString().split("T")[0])  // storing the current date in the formate yyyy-mm-dd
+    const [department, setDepartment] = useState("")
+    const [photo, setPhoto] = useState("")
+
+    // function to handle the submitio of inputs given by user 
+    const handleProblemSubmit = (e) => {
+        e.preventDefault()
+        // console.log(description, date, department, photo);
+    }
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
             <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg w-[50%]">
                 <div className="text-[1.75em] font-bold">Raise your problem</div>
 
-                <form className="grid gap-4">
+                <form className="grid gap-4" onSubmit={(e) => handleProblemSubmit(e)}>
                     {/* complaint text  */}
                     <div className="grid gap-2">
                         <label htmlFor="description">Description:</label>
@@ -25,6 +34,8 @@ const DialogBoxGrievance = ({display, hide}) => {
                             className="border border-slate-300 rounded-md px-2 py-1 focus:outline-blue-500"
                             id="description"
                             placeholder="Write details about the problem here"
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
                         />
                     </div>
 
@@ -39,6 +50,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                                 id="date"
                                 defaultValue={date}
                                 onChange={(e) => setDate(e.target.value)}
+                                required
                             />
                         </div>
 
@@ -48,6 +60,8 @@ const DialogBoxGrievance = ({display, hide}) => {
                             <Select
                                 options={departmentList}
                                 placeholder="Select the department"
+                                onChange={(e) => setDepartment(e.value)}
+                                required
                             />
                         </div>
                     </div>
@@ -60,6 +74,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                             className="border border-slate-300 rounded-md p-1"
                             id="upload-photo"
                             accept="image/*"
+                            onChange={(e) => setPhoto(e.target.files)}
                             multiple
                             required
                         />
@@ -69,6 +84,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                     <div>
                         <button
                             className="bg-blue-600 text-white px-3 py-1 rounded-md mt-2 hover:shadow-[2px_2px_10px_rgba(0,0,0,0.4)] focus:bg-blue-500 focus:shadow-none transition-all ease-out delay-100"
+                            onClick={(e) => handleProblemSubmit(e)}
                         >
                             Submit
                         </button>
