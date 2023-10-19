@@ -1,7 +1,6 @@
 'use client'
 
 import departmentList from "@utils/departmentList";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Select from "react-select";
 import config from "@config/serverConfig";
@@ -18,29 +17,31 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await fetch(config.serverUrl + '/problems/upload', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": "token-value",
-                },
-                body: JSON.stringify({
-                    description,
-                    date,
-                    department,
-                }),
-            })
+        if (![description, date, department, photo].includes("")){
+            e.preventDefault();
+
+            // creating a new form data 
+            let formData = new FormData()
+
+            //appending all the input to form data
+            formData.append("description", description)
+            formData.append("date", date)
+            formData.append("department", department)
+            formData.append("grievance-image", photo)
+
+            try {
+                //api for uploading the problem
+                await fetch(config.serverUrl + '/problems/upload', {
+                    method: "POST",
+                    body: formData
+                })
                 .then((res) => res.json())
-                .then((res) => {
-                    if (res.status == "success")
-                        console.log("added successfully")
-                });
-        } catch (err) {
-            console.log("fail to add\n", err);
+                .then((res) => hide(false))
+            } catch (err) {
+                console.log("fail to add\n", err);
+            }
         }
-    };
+    }
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
@@ -95,9 +96,9 @@ const DialogBoxGrievance = ({display, hide}) => {
                             type="file"
                             className="border border-slate-300 rounded-md p-1"
                             id="upload-photo"
+                            name="grievance-image"
                             accept="image/*"
-                            onChange={(e) => setPhoto(e.target.files)}
-                            multiple
+                            onChange={(e) => setPhoto(e.target.files[0])}
                             required
                         />
                     </div>
