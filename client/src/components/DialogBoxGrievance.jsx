@@ -1,8 +1,10 @@
 'use client'
 
 import departmentList from "@utils/departmentList";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Select from "react-select";
+import config from "@config/serverConfig";
 
 const DialogBoxGrievance = ({display, hide}) => {
     // checking whether we have to display dialog box or not 
@@ -15,10 +17,30 @@ const DialogBoxGrievance = ({display, hide}) => {
     const [photo, setPhoto] = useState("")
 
     // function to handle the submitio of inputs given by user 
-    const handleProblemSubmit = (e) => {
-        e.preventDefault()
-        // console.log(description, date, department, photo);
-    }
+    const handleProblemSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await fetch(config.serverUrl + '/problems/upload', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": "token-value",
+                },
+                body: JSON.stringify({
+                    description,
+                    date,
+                    department,
+                }),
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.status == "success")
+                        console.log("added successfully")
+                });
+        } catch (err) {
+            console.log("fail to add\n", err);
+        }
+    };
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>

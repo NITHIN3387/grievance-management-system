@@ -1,7 +1,10 @@
 const db = require('../config/dbConnection');
-const { initializeApp } = require("firebase/app");
-const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
-const multer = require("multer");
+const admin = require('firebase-admin'); // Corrected import statement
+const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require('firebase/storage'); // Corrected import statement
+const multer = require('multer');
+
+// ... rest of your code
+
 
 // Creating a complaints collection in the database
 const complaints = db.collection("complaints");
