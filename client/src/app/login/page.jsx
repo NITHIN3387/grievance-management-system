@@ -43,6 +43,7 @@ const login = () => {
             email,
             password,
           }),
+          credentials: 'include'
         })
           .then((res) => res.json())
           .then((res) => {

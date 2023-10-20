@@ -67,14 +67,10 @@ const userLogin = async (req, res) => {
             )
             //storing the generated token in cookie
             res.cookie('token', token, {
-                withCredentials: true,
+                maxAge: 604800000,  //7 days
                 httpOnly: true,
-                sameSite: 'None',
-                maxAge: 604800000,
-                secure: true,
             })
-
-            res.send({ message: "user loged in successfully", data: userData, status: "success" })
+            .send({ message: "user loged in successfully", data: userData, status: "success"})
         } else
             res.send({ message: "incorrect password", status: "password-err" })
     } else
@@ -83,21 +79,23 @@ const userLogin = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const id = req.params.id;//get the id from api
-    user.doc(id)//checking the database if the id exists
-        .get()
-        .then((doc) => {//id data exist
-            if (doc.exists) {
-                const userdata = doc.data()//storing the data in userdata
-                res.send(userdata)
-            }
-            else {// if data doesnot exist
-                res.status(404)
-                res.send({message:"User with provided id doesnot exist", status:"fail"})
-            }
-        }).catch((error) => {
-            console.error("Error in getting userdata",error)
-        })
+    const id = req.user;
+
+    //fetching requested user details from the db
+    await user.doc(id).get()
+    .then((doc) => {
+        if (doc.exists) {
+            const userdata = {_id: doc.id, ...doc.data()}     //storing the data in userdata
+            delete userdata.password        //deleting the password from the userdata to avoid sending user password
+            res.send({message:"user data found", status:"success", data: userdata})
+        }
+        else 
+            res.status(404).send({message:"User with provided id doesnot exist", status:"fail"})
+    })
+    .catch((error) => {
+        res.status(500).send({message:"Internal server error", status:"fail"})
+        console.error("Error in getting userdata", error)
+    })
 }
 
 module.exports = { userRegister, userLogin, getUser }
