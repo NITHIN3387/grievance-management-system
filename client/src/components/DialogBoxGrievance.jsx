@@ -45,7 +45,7 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
-            <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg w-[50%]">
+            <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg xl:w-[50%] lg:w-[60%] md:w-[70%] w-[90%]">
                 <div className="text-[1.75em] font-bold">Raise your problem</div>
 
                 <form className="grid gap-4" onSubmit={(e) => handleProblemSubmit(e)}>
@@ -63,7 +63,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                     </div>
 
                     {/* date and department  */}
-                    <div className="grid grid-cols-[1fr_2fr] gap-5">
+                    <div className="grid sm:grid-cols-[1fr_2fr] gap-5">
                         {/* date  */}
                         <div className="grid gap-2">
                             <label htmlFor="date">Date:</label>
