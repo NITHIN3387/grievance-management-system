@@ -7,4 +7,4 @@ const departmentList = [
     {value: "mhd", label: "mangalore health department"},
 ]
 
-module.exports = departmentList
+module.exports = departmentList;
