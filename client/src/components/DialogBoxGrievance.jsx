@@ -1,7 +1,7 @@
 'use client'
 
 import departmentList from "@utils/departmentList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select";
 import config from "@config/serverConfig";
 
@@ -15,10 +15,15 @@ const DialogBoxGrievance = ({display, hide}) => {
     const [department, setDepartment] = useState("")
     const [photo, setPhoto] = useState("")
 
+    //DOM reference to display error effect
+    const metaErrMsg = useRef() 
+
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
         if (![description, date, department, photo].includes("")){
             e.preventDefault();
+
+            metaErrMsg.current.classList.add("hidden")
 
             // creating a new form data 
             let formData = new FormData()
@@ -36,7 +41,12 @@ const DialogBoxGrievance = ({display, hide}) => {
                     body: formData
                 })
                 .then((res) => res.json())
-                .then((res) => hide(false))
+                .then((res) => { 
+                    if (res.status == "success")
+                        hide(false)
+                    else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
+                        metaErrMsg.current.classList.remove("hidden")
+                })
             } catch (err) {
                 console.log("fail to add\n", err);
             }
@@ -45,7 +55,7 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
-            <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg w-[50%]">
+            <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg xl:w-[50%] lg:w-[60%] md:w-[70%] w-[90%]">
                 <div className="text-[1.75em] font-bold">Raise your problem</div>
 
                 <form className="grid gap-4" onSubmit={(e) => handleProblemSubmit(e)}>
@@ -63,7 +73,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                     </div>
 
                     {/* date and department  */}
-                    <div className="grid grid-cols-[1fr_2fr] gap-5">
+                    <div className="grid sm:grid-cols-[1fr_2fr] gap-5">
                         {/* date  */}
                         <div className="grid gap-2">
                             <label htmlFor="date">Date:</label>
@@ -101,6 +111,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                             onChange={(e) => setPhoto(e.target.files[0])}
                             required
                         />
+                        <p className="text-[0.85em] text-red-500 hidden" id="error-msg" ref={metaErrMsg}>* Turn on your location and click photo again</p>
                     </div>
 
                     {/* submit button  */}

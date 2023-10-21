@@ -34,3 +34,16 @@ input[type=number] {
     opacity: 1;
   }
 }
+
+.navbar-toggle-animation{
+  animation: toggle ease-out 0.25s forwards;
+}
+
+@keyframes toggle {
+  0%{
+    transform: translateX(100%);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
