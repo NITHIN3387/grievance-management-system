@@ -1,3 +1,6 @@
+const exif = require('exif-parser');
+const axios = require('axios');
+
 const {db, firebaseConfig} = require('../config/dbConnection');
 
 const {initializeApp} = require('@firebase/app')
@@ -19,32 +22,59 @@ const uploadComplaints = async (req, res) => {
         const { description, date, department } = req.body; // Getting the data from request.body
         const photo = req.file
 
-        //getting storage refferace to the cloud storage
-        const storageRef = ref(storage, "grievance-images/" + Date.now() + "-" + Math.round(Math.random() * 1E9))       //for making a unique name of the photo we use uploaded date and a random number
+        //<------------------ fetching exif meta data of the image -------------->
+        const buffer = photo.buffer             //storing buffer code of the img
+        const parser = exif.create(buffer)      
+        const exifData = parser.parse()         //fecthing the exif data of the image
 
-        //Create file metadata including the content type
-        const metadata = {
-            contentType: photo.mimetype
+        //storing latitude and logitude of the location where photo is taken
+        const latitude = exifData.tags.GPSLatitude
+        const longitude = exifData.tags.GPSLongitude
+
+        //api url to fetch location name through the location latitude and longitude
+        const locationApiUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+        
+        if (latitude || longitude){
+            //fetching the location using api
+            const location = await axios.get(locationApiUrl)
+            .then((res) => res.data.display_name)
+            .catch((err) => {
+                console.log("fail to fetch location\n", err);
+            })
+
+            //<----------------- storing img in firebase cloude storage ----------------------->
+            //getting storage refferace to the cloud storage
+            const storageRef = ref(storage, "grievance-images/" + Date.now() + "-" + Math.round(Math.random() * 1E9))       //for making a unique name of the photo we use uploaded date and a random number
+    
+            //Create file metadata including the content type
+            const metadata = {
+                contentType: photo.mimetype
+            }
+    
+            //upload the file in the bucket storage
+            await uploadBytesResumable(storageRef, photo.buffer, metadata)
+            .then(async (snapshot) => (
+                //get the download url of the image
+                await getDownloadURL(snapshot.ref)
+            ))
+            .then(async (imageUrl) => {
+                // const 
+    
+                // Save the data in the complaints collection
+                await complaints.add({
+                    description,
+                    date,
+                    department,
+                    imageUrl,
+                    location
+                })
+                .then(() => {
+                    res.status(200).send({message: "complaint submitted successfully", status: "success"})
+                })
+            })
+        } else {
+            res.status(404).send({message: "exif data of the image does not has location information", status: "metadata error"})
         }
-
-        //upload the file in the bucket storage
-        await uploadBytesResumable(storageRef, photo.buffer, metadata)
-        .then(async (snapshot) => (
-            //get the download url of the image
-            await getDownloadURL(snapshot.ref)
-        ))
-        .then(async (imageUrl) => {
-            // Save the data in the complaints collection
-            await complaints.add({
-                description,
-                date,
-                department,
-                imageUrl
-            })
-            .then(() => {
-                res.status(200).send({message: "complaint submitted successfully", status: "success"})
-            })
-        })
     } catch (error) {
         res.status(500).send({ message: "Error submitting complaint", status: "fail" });
         console.log('Error submitting complaint:', error);

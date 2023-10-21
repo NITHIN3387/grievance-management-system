@@ -1,7 +1,7 @@
 'use client'
 
 import departmentList from "@utils/departmentList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select";
 import config from "@config/serverConfig";
 
@@ -15,10 +15,15 @@ const DialogBoxGrievance = ({display, hide}) => {
     const [department, setDepartment] = useState("")
     const [photo, setPhoto] = useState("")
 
+    //DOM reference to display error effect
+    const metaErrMsg = useRef() 
+
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
         if (![description, date, department, photo].includes("")){
             e.preventDefault();
+
+            metaErrMsg.current.classList.add("hidden")
 
             // creating a new form data 
             let formData = new FormData()
@@ -36,7 +41,12 @@ const DialogBoxGrievance = ({display, hide}) => {
                     body: formData
                 })
                 .then((res) => res.json())
-                .then((res) => hide(false))
+                .then((res) => { 
+                    if (res.status == "success")
+                        hide(false)
+                    else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
+                        metaErrMsg.current.classList.remove("hidden")
+                })
             } catch (err) {
                 console.log("fail to add\n", err);
             }
@@ -101,6 +111,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                             onChange={(e) => setPhoto(e.target.files[0])}
                             required
                         />
+                        <p className="text-[0.85em] text-red-500 hidden" id="error-msg" ref={metaErrMsg}>* Turn on your location and click photo again</p>
                     </div>
 
                     {/* submit button  */}
