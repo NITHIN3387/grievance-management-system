@@ -52,7 +52,7 @@ const login = () => {
               //checking whether login user is a admin or not
               if (email.split("@")[1] == "mcc.gov.in")
                 router.replace("/admin/" + res.data[0]._id);
-              else router.replace("/user/" + res.data[0]._id);
+              else router.replace("/user");
             else errMsg.current.classList.remove("hidden"); //adding error effect on the invalid email or password
           });
       } catch (err) {

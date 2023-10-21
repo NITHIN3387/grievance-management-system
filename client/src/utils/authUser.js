@@ -1,11 +1,11 @@
 import config from "@config/serverConfig"
 
-const auth = async (id) => {
+const auth = async () => {
     let userData = null
 
     try{
         //fetching user details by his id
-        await fetch(config.serverUrl + "/user/get-user/" + id, {
+        await fetch(config.serverUrl + "/user/get-user", {
             method: 'GET',
             credentials: 'include'
         })

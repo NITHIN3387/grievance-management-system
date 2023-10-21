@@ -14,8 +14,8 @@ const Dashboard = ({params}) => {
   
   useEffect(() => {
     // fetching logged in  user details
-    const authUser = async (id) => {
-      await auth(id)
+    const authUser = async () => {
+      await auth()
       .then((data) => {
         // checking whether user is authorized or not 
         if (data)
@@ -28,7 +28,7 @@ const Dashboard = ({params}) => {
       })
     }
 
-    authUser(params.user_id)
+    authUser()
   }, [])
 
   return (
