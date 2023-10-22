@@ -1,5 +1,6 @@
 'use client'
 
+import AdminNavbar from '@components/AdminNavbar'
 import DialogBoxGrievance from '@components/DialogBoxGrievance'
 import UserNavbar from '@components/UserNavbar'
 import React, { useState } from 'react'
@@ -13,7 +14,7 @@ const WebsiteLayout = ({children}) => {
 
   return (
     <div>
-      <UserNavbar display={handleDialogBoxState}/>
+      {!window.location.href.includes("/admin") ? <UserNavbar display={handleDialogBoxState}/> : <AdminNavbar />}
 
       {/* dialog box for submiting the grievance */}
       <div className=''>

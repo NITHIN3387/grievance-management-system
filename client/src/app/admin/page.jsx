@@ -19,9 +19,12 @@ const Dashboard = () => {
       .then((data) => {
         // checking whether user is authorized or not 
         if (data)
-          setUser(data)
+            if (data.email.split("@")[1].includes("gov.in"))
+                setUser(data)
+            else
+                router.replace("/login") 
         else
-          router.replace("/login")
+            router.replace("/login")
       })
       .catch((err) => {
         console.log("fail to fetch user details\n", err);

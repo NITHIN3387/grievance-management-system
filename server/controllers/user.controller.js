@@ -78,6 +78,12 @@ const userLogin = async (req, res) => {
 
 }
 
+const userLogout = (req, res) => {
+    res.clearCookie('token')
+    .status(200)
+    .send({message: 'user logged out successfully', status: 'success'})
+}
+
 const getUser = async (req, res) => {
     const id = req.user;
 
@@ -98,4 +104,4 @@ const getUser = async (req, res) => {
     })
 }
 
-module.exports = { userRegister, userLogin, getUser }
+module.exports = { userRegister, userLogin, userLogout, getUser }
