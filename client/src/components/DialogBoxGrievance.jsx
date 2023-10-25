@@ -12,7 +12,6 @@ const DialogBoxGrievance = ({display, hide}) => {
     //variables to store the input given by user
     const [description, setDescription] = useState("")
     const [date, setDate] = useState(new Date().toISOString().split("T")[0])  // storing the current date in the formate yyyy-mm-dd
-    const [department, setDepartment] = useState("")
     const [photo, setPhoto] = useState("")
 
     //DOM reference to display error effect
@@ -20,7 +19,7 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
-        if (![description, date, department, photo].includes("")){
+        if (![description, date, photo].includes("")){
             e.preventDefault();
 
             metaErrMsg.current.classList.add("hidden")
@@ -31,7 +30,6 @@ const DialogBoxGrievance = ({display, hide}) => {
             //appending all the input to form data
             formData.append("description", description)
             formData.append("date", date)
-            formData.append("department", department)
             formData.append("grievance-image", photo)
 
             try {
@@ -63,7 +61,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                     <div className="grid gap-2">
                         <label htmlFor="description">Description:</label>
                         <textarea
-                            rows="5"
+                            rows="10"
                             className="border border-slate-300 rounded-md px-2 py-1 focus:outline-blue-500"
                             id="description"
                             placeholder="Write details about the problem here"
@@ -87,32 +85,21 @@ const DialogBoxGrievance = ({display, hide}) => {
                             />
                         </div>
 
-                        {/* department  */}
+                        {/* upload file  */}
                         <div className="grid gap-2">
-                            <label>Department:</label>
-                            <Select
-                                options={departmentList}
-                                placeholder="Select the department"
-                                onChange={(e) => setDepartment(e.value)}
+                            <label htmlFor="upload-photo">Upload photo:</label>
+                            <input
+                                type="file"
+                                className="border border-slate-300 rounded-md p-1"
+                                id="upload-photo"
+                                name="grievance-image"
+                                accept="image/*"
+                                onChange={(e) => setPhoto(e.target.files[0])}
                                 required
                             />
                         </div>
                     </div>
-
-                    {/* upload file  */}
-                    <div className="grid gap-2">
-                        <label htmlFor="upload-photo">Upload photo:</label>
-                        <input
-                            type="file"
-                            className="border border-slate-300 rounded-md p-1"
-                            id="upload-photo"
-                            name="grievance-image"
-                            accept="image/*"
-                            onChange={(e) => setPhoto(e.target.files[0])}
-                            required
-                        />
-                        <p className="text-[0.85em] text-red-500 hidden" id="error-msg" ref={metaErrMsg}>* Turn on your location and click photo again</p>
-                    </div>
+                    <p className="text-[0.85em] text-red-500 hidden" id="error-msg" ref={metaErrMsg}>* Turn on your location and click photo again</p>
 
                     {/* submit button  */}
                     <div>

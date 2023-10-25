@@ -19,7 +19,7 @@ const Dashboard = () => {
       .then((data) => {
         // checking whether user is authorized or not 
         if (data)
-            if (data.email.split("@")[1].includes("gov.in"))
+            if (data.email.split("@")[1].includes("gov.in"))  //checking whether user has access right to this page or not
                 setUser(data)
             else
                 router.replace("/login") 

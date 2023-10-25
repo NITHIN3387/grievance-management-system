@@ -1,9 +1,10 @@
 'use client'
 
+import React, { useState } from 'react'
+
 import AdminNavbar from '@components/AdminNavbar'
 import DialogBoxGrievance from '@components/DialogBoxGrievance'
 import UserNavbar from '@components/UserNavbar'
-import React, { useState } from 'react'
 
 const WebsiteLayout = ({children}) => {
   //variable to describe the display state of the dialog box of problem submit form

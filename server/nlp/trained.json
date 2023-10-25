@@ -1,0 +1,660 @@
+{
+  "classifier": {
+    "classFeatures": {
+      "Health Department": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2,
+        "9": 2,
+        "10": 2,
+        "11": 2,
+        "12": 2,
+        "13": 3,
+        "14": 2,
+        "15": 2,
+        "16": 2,
+        "17": 2,
+        "18": 2,
+        "19": 2,
+        "20": 4,
+        "21": 2,
+        "22": 2,
+        "23": 2,
+        "24": 2,
+        "25": 2,
+        "26": 2,
+        "27": 2,
+        "28": 2,
+        "29": 2,
+        "30": 2,
+        "31": 2,
+        "32": 2,
+        "33": 2,
+        "34": 2,
+        "35": 2,
+        "36": 2,
+        "37": 2,
+        "38": 2,
+        "39": 2,
+        "40": 2,
+        "41": 2,
+        "42": 2,
+        "43": 2,
+        "44": 2
+      },
+      "Municipal Corporation": {
+        "3": 2,
+        "4": 2,
+        "13": 2,
+        "17": 2,
+        "20": 3,
+        "21": 2,
+        "26": 2,
+        "29": 2,
+        "45": 2,
+        "46": 3,
+        "47": 2,
+        "48": 2,
+        "49": 2,
+        "50": 2,
+        "51": 2,
+        "52": 2,
+        "53": 2,
+        "54": 2,
+        "55": 2,
+        "56": 2,
+        "57": 2,
+        "58": 3,
+        "59": 2,
+        "60": 2,
+        "61": 2,
+        "62": 2,
+        "63": 2,
+        "64": 2,
+        "65": 2,
+        "66": 2,
+        "67": 2,
+        "68": 2,
+        "69": 2,
+        "70": 2,
+        "71": 2,
+        "72": 2
+      },
+      "Electricity Department": {
+        "9": 2,
+        "20": 3,
+        "26": 3,
+        "29": 3,
+        "48": 2,
+        "54": 3,
+        "56": 2,
+        "57": 2,
+        "70": 2,
+        "73": 2,
+        "74": 2,
+        "75": 2,
+        "76": 2,
+        "77": 2,
+        "78": 2,
+        "79": 4,
+        "80": 2,
+        "81": 2,
+        "82": 2,
+        "83": 2,
+        "84": 2,
+        "85": 2,
+        "86": 2,
+        "87": 2,
+        "88": 2,
+        "89": 3,
+        "90": 2,
+        "91": 2,
+        "92": 2,
+        "93": 2,
+        "94": 2,
+        "95": 2,
+        "96": 2,
+        "97": 2,
+        "98": 2,
+        "99": 2,
+        "100": 2,
+        "101": 2,
+        "102": 2,
+        "103": 2,
+        "104": 2
+      },
+      "Public Works Department": {
+        "3": 2,
+        "11": 2,
+        "12": 2,
+        "13": 2,
+        "16": 2,
+        "20": 4,
+        "26": 3,
+        "29": 4,
+        "48": 2,
+        "53": 2,
+        "54": 3,
+        "55": 3,
+        "57": 2,
+        "70": 2,
+        "83": 2,
+        "84": 2,
+        "105": 2,
+        "106": 2,
+        "107": 2,
+        "108": 2,
+        "109": 2,
+        "110": 2,
+        "111": 2,
+        "112": 3,
+        "113": 2,
+        "114": 2,
+        "115": 2,
+        "116": 2,
+        "117": 2,
+        "118": 2,
+        "119": 2,
+        "120": 2,
+        "121": 2
+      },
+      "Water Resources Department": {
+        "6": 2,
+        "16": 2,
+        "17": 2,
+        "20": 4,
+        "24": 3,
+        "26": 3,
+        "29": 3,
+        "30": 2,
+        "40": 2,
+        "45": 2,
+        "48": 3,
+        "51": 2,
+        "52": 9,
+        "70": 2,
+        "100": 2,
+        "102": 2,
+        "106": 2,
+        "107": 2,
+        "116": 2,
+        "122": 2,
+        "123": 2,
+        "124": 2,
+        "125": 2,
+        "126": 2,
+        "127": 2,
+        "128": 2,
+        "129": 2,
+        "130": 3,
+        "131": 2,
+        "132": 2,
+        "133": 2,
+        "134": 2
+      },
+      "Education Department": {
+        "0": 2,
+        "2": 2,
+        "3": 2,
+        "16": 3,
+        "20": 4,
+        "26": 3,
+        "29": 3,
+        "44": 2,
+        "48": 4,
+        "54": 2,
+        "70": 2,
+        "97": 2,
+        "128": 2,
+        "135": 2,
+        "136": 3,
+        "137": 2,
+        "138": 2,
+        "139": 2,
+        "140": 2,
+        "141": 2,
+        "142": 2,
+        "143": 2,
+        "144": 2,
+        "145": 2,
+        "146": 2,
+        "147": 2,
+        "148": 2,
+        "149": 2,
+        "150": 2,
+        "151": 2,
+        "152": 2
+      }
+    },
+    "classTotals": {
+      "Health Department": 11,
+      "Municipal Corporation": 11,
+      "Electricity Department": 11,
+      "Public Works Department": 11,
+      "Water Resources Department": 11,
+      "Education Department": 11
+    },
+    "totalExamples": 61,
+    "smoothing": 1
+  },
+  "docs": [
+    { "label": "Health Department", "text": ["insuffici", "medic", "staff"] },
+    {
+      "label": "Health Department",
+      "text": ["lack", "proper", "sanit", "facil"]
+    },
+    {
+      "label": "Health Department",
+      "text": ["delai", "ambul", "servic", "emerg"]
+    },
+    {
+      "label": "Health Department",
+      "text": ["poor", "mainten", "public", "health", "clinic"]
+    },
+    {
+      "label": "Health Department",
+      "text": ["inadequ", "suppli", "essenti", "medicin"]
+    },
+    {
+      "label": "Health Department",
+      "text": ["complaint", "regard", "unhygien", "condit", "local", "market"]
+    },
+    {
+      "label": "Health Department",
+      "text": ["concern", "cleanli", "public", "restroom"]
+    },
+    {
+      "label": "Health Department",
+      "text": [
+        "request",
+        "better",
+        "healthcar",
+        "access",
+        "remot",
+        "area",
+        "district"
+      ]
+    },
+    {
+      "label": "Health Department",
+      "text": ["complaint", "long", "wait", "time"]
+    },
+    {
+      "label": "Health Department",
+      "text": [
+        "nois",
+        "pollut",
+        "complaint",
+        "due",
+        "nearbi",
+        "hospit",
+        "activ"
+      ]
+    },
+    {
+      "label": "Municipal Corporation",
+      "text": ["irregular", "garbag", "collect"]
+    },
+    { "label": "Municipal Corporation", "text": ["issu", "sewag", "overflow"] },
+    {
+      "label": "Municipal Corporation",
+      "text": ["complaint", "contamin", "water", "suppli"]
+    },
+    { "label": "Municipal Corporation", "text": ["pothol", "damag", "road"] },
+    {
+      "label": "Municipal Corporation",
+      "text": ["lack", "proper", "street", "light"]
+    },
+    { "label": "Municipal Corporation", "text": ["illeg", "dump", "wast"] },
+    {
+      "label": "Municipal Corporation",
+      "text": ["request", "addit", "garbag", "bin"]
+    },
+    {
+      "label": "Municipal Corporation",
+      "text": ["complaint", "regard", "strai", "dog", "menac"]
+    },
+    {
+      "label": "Municipal Corporation",
+      "text": ["concern", "overgrown", "veget", "obstruct", "pathwai"]
+    },
+    {
+      "label": "Municipal Corporation",
+      "text": ["problem", "illeg", "encroach", "public", "land"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["frequent", "power", "outag"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": [
+        "bill",
+        "discrep",
+        "high",
+        "electr",
+        "charg",
+        "without",
+        "explan"
+      ]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["complaint", "damag", "non", "function", "street", "light"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["concern", "unsaf", "electr", "pole", "electr", "wire"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["request", "new", "electr", "connect"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["problem", "voltag", "fluctuat", "damag", "electron", "applianc"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["complaint", "unrespons", "custom", "servic", "hotlin"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["issu", "outdat", "malfunct", "meter"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["concern", "unauthor", "connect"]
+    },
+    {
+      "label": "Electricity Department",
+      "text": ["request", "energi", "conserv", "tip", "inform"]
+    },
+    { "label": "Public Works Department", "text": ["complaint", "pothol"] },
+    {
+      "label": "Public Works Department",
+      "text": ["request", "mainten", "damag", "bridg"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["concern", "inadequ", "drainag", "system"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["problem", "uneven", "road", "surfac"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["complaint", "lack", "pedestrian", "sidewalk"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["request", "traffic", "signal", "instal"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["concern", "poor", "road", "signag"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["issu", "waterlog", "raini", "season"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["complaint", "non", "function", "traffic", "light"]
+    },
+    {
+      "label": "Public Works Department",
+      "text": ["request", "repair", "damag", "public", "park", "infrastructur"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["complaint", "irregular", "water", "suppli"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["issu", "water", "contamin"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["concern", "low", "water", "pressur"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["request", "better", "irrig", "facil", "farmer"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["problem", "inadequ", "water", "storag"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["complaint", "unauthor", "water", "extract"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["request", "water", "conserv", "program"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["concern", "deplet", "local", "water", "bodi"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": ["issu", "ineffici", "drainag", "system", "caus", "waterlog"]
+    },
+    {
+      "label": "Water Resources Department",
+      "text": [
+        "complaint",
+        "pollut",
+        "water",
+        "bodi",
+        "affect",
+        "local",
+        "ecosystem"
+      ]
+    },
+    {
+      "label": "Education Department",
+      "text": ["complaint", "inadequ", "teach", "staff"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["issu", "outdat", "damag", "educ", "materi"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["concern", "insuffici", "classroom", "space"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["request", "extracurricular", "activ"]
+    },
+    { "label": "Education Department", "text": ["problem", "bulli", "harass"] },
+    {
+      "label": "Education Department",
+      "text": ["complaint", "lack", "special", "educ", "resourc"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["request", "vocat", "train", "program"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["concern", "transport", "issu", "student"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["issu", "inadequ", "secur", "measur"]
+    },
+    {
+      "label": "Education Department",
+      "text": ["complaint", "discriminatori", "practic"]
+    }
+  ],
+  "features": {
+    "insuffici": 2,
+    "medic": 1,
+    "staff": 2,
+    "lack": 4,
+    "proper": 2,
+    "sanit": 1,
+    "facil": 2,
+    "delai": 1,
+    "ambul": 1,
+    "servic": 2,
+    "emerg": 1,
+    "poor": 2,
+    "mainten": 2,
+    "public": 4,
+    "health": 1,
+    "clinic": 1,
+    "inadequ": 5,
+    "suppli": 3,
+    "essenti": 1,
+    "medicin": 1,
+    "complaint": 16,
+    "regard": 2,
+    "unhygien": 1,
+    "condit": 1,
+    "local": 3,
+    "market": 1,
+    "concern": 10,
+    "cleanli": 1,
+    "restroom": 1,
+    "request": 11,
+    "better": 2,
+    "healthcar": 1,
+    "access": 1,
+    "remot": 1,
+    "area": 1,
+    "district": 1,
+    "long": 1,
+    "wait": 1,
+    "time": 1,
+    "nois": 1,
+    "pollut": 2,
+    "due": 1,
+    "nearbi": 1,
+    "hospit": 1,
+    "activ": 2,
+    "irregular": 2,
+    "garbag": 2,
+    "collect": 1,
+    "issu": 8,
+    "sewag": 1,
+    "overflow": 1,
+    "contamin": 2,
+    "water": 9,
+    "pothol": 2,
+    "damag": 6,
+    "road": 3,
+    "street": 2,
+    "light": 3,
+    "illeg": 2,
+    "dump": 1,
+    "wast": 1,
+    "addit": 1,
+    "bin": 1,
+    "strai": 1,
+    "dog": 1,
+    "menac": 1,
+    "overgrown": 1,
+    "veget": 1,
+    "obstruct": 1,
+    "pathwai": 1,
+    "problem": 5,
+    "encroach": 1,
+    "land": 1,
+    "frequent": 1,
+    "power": 1,
+    "outag": 1,
+    "bill": 1,
+    "discrep": 1,
+    "high": 1,
+    "electr": 4,
+    "charg": 1,
+    "without": 1,
+    "explan": 1,
+    "non": 2,
+    "function": 2,
+    "unsaf": 1,
+    "pole": 1,
+    "wire": 1,
+    "new": 1,
+    "connect": 2,
+    "voltag": 1,
+    "fluctuat": 1,
+    "electron": 1,
+    "applianc": 1,
+    "unrespons": 1,
+    "custom": 1,
+    "hotlin": 1,
+    "outdat": 2,
+    "malfunct": 1,
+    "meter": 1,
+    "unauthor": 2,
+    "energi": 1,
+    "conserv": 2,
+    "tip": 1,
+    "inform": 1,
+    "bridg": 1,
+    "drainag": 2,
+    "system": 2,
+    "uneven": 1,
+    "surfac": 1,
+    "pedestrian": 1,
+    "sidewalk": 1,
+    "traffic": 2,
+    "signal": 1,
+    "instal": 1,
+    "signag": 1,
+    "waterlog": 2,
+    "raini": 1,
+    "season": 1,
+    "repair": 1,
+    "park": 1,
+    "infrastructur": 1,
+    "low": 1,
+    "pressur": 1,
+    "irrig": 1,
+    "farmer": 1,
+    "storag": 1,
+    "extract": 1,
+    "program": 2,
+    "deplet": 1,
+    "bodi": 2,
+    "ineffici": 1,
+    "caus": 1,
+    "affect": 1,
+    "ecosystem": 1,
+    "teach": 1,
+    "educ": 2,
+    "materi": 1,
+    "classroom": 1,
+    "space": 1,
+    "extracurricular": 1,
+    "bulli": 1,
+    "harass": 1,
+    "special": 1,
+    "resourc": 1,
+    "vocat": 1,
+    "train": 1,
+    "transport": 1,
+    "student": 1,
+    "secur": 1,
+    "measur": 1,
+    "discriminatori": 1,
+    "practic": 1
+  },
+  "stemmer": {},
+  "lastAdded": 60,
+  "events": { "_events": {}, "_eventsCount": 0 }
+}

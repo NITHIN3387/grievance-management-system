@@ -2,9 +2,10 @@ const exif = require('exif-parser');
 const axios = require('axios');
 
 const {db, firebaseConfig} = require('../config/dbConnection');
+const classifier = require('../nlp/natural');
 
 const {initializeApp} = require('@firebase/app')
-const {getStorage, getDownloadURL, uploadBytesResumable, ref} = require('@firebase/storage')
+const {getStorage, getDownloadURL, uploadBytesResumable, ref} = require('@firebase/storage');
 
 // Creating a complaints collection in the database
 const complaints = db.collection("complaints");
@@ -19,8 +20,9 @@ const uploadComplaints = async (req, res) => {
     const storage = getStorage()
 
     try {
-        const { description, date, department } = req.body; // Getting the data from request.body
+        const { description, date } = req.body; // Getting the data from request.body
         const photo = req.file
+        // const department = classifier.classify(description)
 
         //<------------------ fetching exif meta data of the image -------------->
         const buffer = photo.buffer             //storing buffer code of the img
@@ -57,19 +59,20 @@ const uploadComplaints = async (req, res) => {
                 //get the download url of the image
                 await getDownloadURL(snapshot.ref)
             ))
-            .then(async (imageUrl) => {
-                // const 
-    
-                // Save the data in the complaints collection
-                await complaints.add({
-                    description,
-                    date,
-                    department,
-                    imageUrl,
-                    location
-                })
-                .then(() => {
-                    res.status(200).send({message: "complaint submitted successfully", status: "success"})
+            .then(async (imageUrl) => {    
+                //finding the department to which problem belongs to
+                classifier(description, async (department) => {
+                    // Save the data in the complaints collection
+                    department && await complaints.add({
+                        description,
+                        date,
+                        department,
+                        imageUrl,
+                        location
+                    })
+                    .then(() => {
+                        res.status(200).send({message: "complaint submitted successfully", status: "success"})
+                    })
                 })
             })
         } else {
