@@ -20,7 +20,7 @@ const uploadComplaints = async (req, res) => {
     const storage = getStorage()
 
     try {
-        const { description, date } = req.body; // Getting the data from request.body
+        const { description, date, userId, userName } = req.body; // Getting the data from request.body
         const photo = req.file
         // const department = classifier.classify(description)
 
@@ -68,7 +68,9 @@ const uploadComplaints = async (req, res) => {
                         date,
                         department,
                         imageUrl,
-                        location
+                        location,
+                        userId,
+                        userName
                     })
                     .then(() => {
                         res.status(200).send({message: "complaint submitted successfully", status: "success"})

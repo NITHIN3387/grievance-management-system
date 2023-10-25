@@ -1,13 +1,17 @@
 'use client'
 
-import departmentList from "@utils/departmentList";
-import { useRef, useState } from "react";
-import Select from "react-select";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import config from "@config/serverConfig";
+import auth from "@utils/authUser";
 
 const DialogBoxGrievance = ({display, hide}) => {
     // checking whether we have to display dialog box or not 
     if (!display) return null
+
+    //varibale to store the login user details
+    const [user, setUser] = useState(null)
 
     //variables to store the input given by user
     const [description, setDescription] = useState("")
@@ -16,6 +20,28 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     //DOM reference to display error effect
     const metaErrMsg = useRef() 
+
+    const router = useRouter()
+    
+    useEffect(() => {
+        // fetching logged in  user details
+        const authUser = async () => {
+            await auth()
+            .then((data) => {
+                // checking whether user is authorized or not 
+                if (data)
+                    setUser(data)
+                else
+                    router.replace("/login")
+            })
+            .catch((err) => {
+                console.log("fail to fetch user details\n", err);
+            })
+        }
+
+        authUser()
+    }, [])
+
 
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
@@ -31,6 +57,8 @@ const DialogBoxGrievance = ({display, hide}) => {
             formData.append("description", description)
             formData.append("date", date)
             formData.append("grievance-image", photo)
+            formData.append("userId", user._id)
+            formData.append("userName", user.name)
 
             try {
                 //api for uploading the problem
