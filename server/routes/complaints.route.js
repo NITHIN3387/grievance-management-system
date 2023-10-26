@@ -9,4 +9,5 @@ const router = express.Router()
 router.post('/upload', uploader.single("grievance-image"), uploadComplaints)    //api for uploading the complaint
 router.get('/get', authAdmin, getComplaintByDepartment)    //api for getting the complaint department wise
 
+
 module.exports = router
