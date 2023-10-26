@@ -78,8 +78,14 @@ const userLogin = async (req, res) => {
 
 }
 
+const userLogout = (req, res) => {
+    res.clearCookie('token')
+    .status(200)
+    .send({message: 'user logged out successfully', status: 'success'})
+}
+
 const getUser = async (req, res) => {
-    const id = req.user;
+    const id = req.user._id;
 
     //fetching requested user details from the db
     await user.doc(id).get()
@@ -98,4 +104,4 @@ const getUser = async (req, res) => {
     })
 }
 
-module.exports = { userRegister, userLogin, getUser }
+module.exports = { userRegister, userLogin, userLogout, getUser }

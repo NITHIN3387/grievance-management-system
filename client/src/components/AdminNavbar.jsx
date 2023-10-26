@@ -7,14 +7,14 @@ import Logout from '@assets/images/logout.png'
 import Profile from '@assets/images/profile-user.png'
 import Navigation from '@assets/images/navigation.png'
 import Dashboard from '@assets/images/dashboard.png'
-import AddComplaint from '@assets/images/add-complaint.png'
+import OnProgress from '@assets/images/on-progress.png'
 import Complaints from '@assets/images/complaints.png'
 import Solved from '@assets/images/solved-complaints.png'
 import Cancel from '@assets/images/cancel.png'
 import config from '@config/serverConfig'
 import Link from 'next/link'
 
-const Navbar = ({display}) => {
+const AdminNavbar = () => {
     // Dom refference for showing more option for profile while in desktop mode and navbar toggle when it is in mobile mode 
     const profileMoreOption = useRef()
     const mobileNavabr = useRef()
@@ -74,11 +74,11 @@ const Navbar = ({display}) => {
                 {/* Dashboard  */}
                 <Link href={'/user'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
                 {/* Raise your complaint  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white cursor-pointer' onClick={() => display(true)}>Raise the problem</span>
+                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white cursor-pointer'>Problem List</span>
                 {/* problems  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problems</span>
+                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>On Progress</span>
                 {/* solved problems  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Solved problems</span>
+                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Re-raised Problems</span>
 
                 {/* profile  */}
                 <span className='flex items-center border-s-2 border-s-white ps-4 cursor-pointer' onClick={handleProfileMoreOptionDisplay} onMouseOver={handleProfileMoreOptionDisplay} >
@@ -164,22 +164,22 @@ const Navbar = ({display}) => {
                             {/* raise your problem  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {display(true); handleNavabrDisplay()}}>
                                 <Image 
-                                    src={AddComplaint}
-                                    alt='AddComplaint'
-                                    width={25}
-                                    className='invert'
-                                />
-                                <span>Raise the problem</span>
-                            </div>
-                            {/* problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
-                                <Image 
                                     src={Complaints}
                                     alt='Complaints'
                                     width={25}
                                     className='invert'
                                 />
-                                <span>Problems</span>
+                                <span>Problem List</span>
+                            </div>
+                            {/* problems  */}
+                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
+                                <Image 
+                                    src={OnProgress}
+                                    alt='OnProgress'
+                                    width={25}
+                                    className='invert'
+                                />
+                                <span>On Progress</span>
                             </div>
                             {/* solved problems  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]'>
@@ -190,7 +190,7 @@ const Navbar = ({display}) => {
                                     className='invert'
                                     onClick={() => display(true)}
                                 />
-                                <span>Solved problems</span>
+                                <span>Re-raised Problems</span>
                             </div>
                             {/* profile  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]'>
@@ -221,4 +221,4 @@ const Navbar = ({display}) => {
   )
 }
 
-export default Navbar
+export default AdminNavbar
