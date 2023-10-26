@@ -95,13 +95,8 @@ const getComplaintByDepartment = async (req, res) => {
     const data = await complaints.where("department", "==", department).get();//checking if there are any complaints in database with the provided department
     const complaintData = data.docs.map((doc) => ( doc.data() ))//mapping the received datas
     if (complaintData.length) {              //if data is received we send username,userid,description and date to the admin
-        const userData = complaintData.map((complaint) => ({
-            userName: complaint.userName,
-            userId: complaint.userId,
-            description: complaint.description,
-            date: complaint.date,
-        }));
-        res.status(200).json(userData);
+        
+        res.status(200).json(complaintData);
     } else
         res.send({ message: 'NO complaints from the given department', status: "error" }).status(404)
 }
