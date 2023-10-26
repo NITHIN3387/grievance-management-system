@@ -86,4 +86,12 @@ const uploadComplaints = async (req, res) => {
     }
 };
 
-module.exports = { uploadComplaints };
+// Description: fetch the complaints department wise from the database
+// Method: GET
+// Access: Private
+const getComplaintByDepartment = (req, res) => {
+    const email = req.user.email.split('@')[1]
+    const department = email.split('.')[0]
+}
+
+module.exports = { uploadComplaints, getComplaintByDepartment };

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import WebsiteLayout from '@layouts/WebsiteLayout'
-import auth from '@utils/authUser'
+import authUser from '@utils/authUser'
 
 const Dashboard = () => {
   //varibale to store the login user details
@@ -14,8 +14,8 @@ const Dashboard = () => {
   
   useEffect(() => {
     // fetching logged in  user details
-    const authUser = async () => {
-      await auth()
+    const auth = async () => {
+      await authUser()
       .then((data) => {
         // checking whether user is authorized or not 
         if (data)
@@ -28,7 +28,7 @@ const Dashboard = () => {
       })
     }
 
-    authUser()
+    auth()
   }, [])
 
   return (

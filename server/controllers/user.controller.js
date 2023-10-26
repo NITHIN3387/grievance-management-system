@@ -85,7 +85,7 @@ const userLogout = (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const id = req.user;
+    const id = req.user._id;
 
     //fetching requested user details from the db
     await user.doc(id).get()

@@ -50,7 +50,7 @@ const login = () => {
             //checking whether login is successfull or not
             if (res.status == "success")
               //checking whether login user is a admin or not
-              if (email.split("@")[1].includes("gov.in"))
+              if (email.split("@")[1].includes("kar.in"))
                 router.replace("/admin");
               else router.replace("/user");
             else errMsg.current.classList.remove("hidden"); //adding error effect on the invalid email or password

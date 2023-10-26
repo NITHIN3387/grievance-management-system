@@ -1,11 +1,11 @@
 import config from "@config/serverConfig"
 
-const authUser = async () => {
+const authAdmin = async () => {
     let userData = null
 
     try{
         //fetching user details by his id
-        await fetch(config.serverUrl + "/user/get-user", {
+        await fetch(config.serverUrl + "/user/get-admin", {
             method: 'GET',
             credentials: 'include'
         })
@@ -22,4 +22,4 @@ const authUser = async () => {
     return userData
 }
 
-export default authUser
+export default authAdmin
