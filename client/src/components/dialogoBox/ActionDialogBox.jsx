@@ -63,7 +63,7 @@ const ActionDialogBox = ({display, complaintStatus}) => {
                         onClick={() => handleActionActive(1, "pending")}
                         ref={actionBtnPendingRef}
                     >
-                        Pending
+                        pending
                     </div>
                     {/* on progress  */}
                     <div 
