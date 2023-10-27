@@ -15,6 +15,7 @@ import Image from 'next/image'
 const ProblemList = () => {
     const [admin, setAdmin] = useState()    //varibale to store the login admin details
     const [complaints, setComplaints] = useState([])  //varibale to store the login admin details
+    const [statusColl, setStatusColl] = useState([])  //varibale to store the login admin details
 
     const [search, setSearch] = useState('')
     const [pending, setPending] = useState(false)
@@ -38,26 +39,28 @@ const ProblemList = () => {
                 credentials: 'include'
             })
             .then((res) => res.json())
-            .then((res) => {setComplaints(res.data)})
-        }
+            .then((res) => {
+                setComplaints(res.data)
+                // let tempStatusColl = []
 
-        //fetching complaints related to the logged user department
-        // const loadComplaintsStatus = async () => {
-        //     await fetch(config.serverUrl + '/action/get', {
-        //         method: 'GET',
-        //         credentials: 'include'
-        //     })
-        //     .then((res) => res.json())
-        //     .then((res) => {setComplaints(res.data)})
-        // }
+                res.data.forEach(async (data) => {
+                    await fetch(config.serverUrl + '/action/get/' + data._id, {
+                        method: 'GET',
+                        credentials: 'include'
+                    })
+                    .then((res) => res.json())
+                    .then((res) => {setStatusColl([...statusColl, res.data])})
+                })
+            })
+        }
 
         auth()
         loadComplaints()
-        // loadComplaintsStatus()
     }, [])
 
     //funtion to handle the filter of complaint which has status pending
     const handlePendingFilter = () => {
+        console.log();
         setPending((pre) => !pre)
 
         //adding active filter style to pending filter btn
@@ -85,17 +88,17 @@ const ProblemList = () => {
     }
 
     //function to filter the complaints according to the filters added by the admin
-    const filter = (data) => {
-        if (!data.description.includes(search))
+    const filter = (data, action) => {
+        if (!data.description.toLowerCase().includes(search))
             return false
         
-        if (!(pending ^ onProgress) && (data.status != "pending" && data.status != "on progress"))
+        if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
             return false
 
         if (pending && onProgress)
             return true
 
-        if ((pending && data.status != "pending") || (onProgress && data.status != "on progress"))
+        if ((pending && action.status != "pending") || (onProgress && action.status != "on progress"))
             return false
 
         return true
@@ -132,11 +135,12 @@ const ProblemList = () => {
                 {/* complaint list  */}
                 <div className='sm:h-[calc(100vh-17rem)] h-[calc(100vh-19.5rem)] overflow-scroll shadow-inner rounded-lg'>
                     {
-                        complaints.length ?
-                        complaints.map((data) => (
-                            filter(data) ?
+                        complaints.length && statusColl.length ?
+                        complaints.map((data, i) => (
+                            filter(data, statusColl[0][i]) ?
                             <ProblemCard 
                                 data={data}
+                                action={statusColl[0][i]}
                                 key={data._id}
                             /> : null
                         )) :

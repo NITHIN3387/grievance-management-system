@@ -71,6 +71,13 @@ const DialogBoxGrievance = ({display, hide}) => {
                     if (res.status == "success"){
                         hide(false)
 
+                        let formData = new FormData()
+
+                        formData.append("userId", user._id)
+                        formData.append("complaintId", res._id)
+                        formData.append("status", "pending")
+                        formData.append("description", "")
+
                         await fetch(config.serverUrl + '/action/upload', {
                             method: "POST",
                             headers: {

@@ -8,7 +8,7 @@ import Onprogress from "@assets/images/on-progress-yellow.png"
 import ActionDialogBox from "./dialogoBox/ActionDialogBox";
 import DocViewer from "./dialogoBox/DocViewer";
 
-const ProblemCard = ({data}) => {
+const ProblemCard = ({data, action}) => {
     const location = data.location.split(',')
 
     const displayViewDoc = useRef() 
@@ -77,7 +77,7 @@ const ProblemCard = ({data}) => {
                     <div className="sm:text-[1em] text-[0.9em]">{data.description}</div>
                     {/* status  */}
                     <div>{
-                        data.status == "pending" ?
+                        action.status == "pending" ?
                         <div className="flex gap-2 items-center">
                             <Image 
                                 src={Pending}
@@ -169,7 +169,7 @@ const ProblemCard = ({data}) => {
 
             {/* action dialog box  */}
             <div className="hidden z-10 fixed" ref={actionBoxRef}>
-                <ActionDialogBox display={viewActionBox} complaintStatus={data.status}/>
+                <ActionDialogBox display={viewActionBox} action={action}/>
             </div>
         </div>
     )
