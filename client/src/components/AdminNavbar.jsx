@@ -72,12 +72,12 @@ const AdminNavbar = () => {
             {/* navigation links  */}
             <div className='flex xl:gap-[2rem] lg:gap-[1.75rem] gap-[1rem] items-center'>
                 {/* Dashboard  */}
-                <Link href={'/user'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
-                {/* Raise your complaint  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white cursor-pointer'>Problem List</span>
-                {/* problems  */}
+                <Link href={'/admin'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
+                {/* Problem List */}
+                <Link href={'/admin/problem-list'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problem List</Link>
+                {/* On Progress  */}
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>On Progress</span>
-                {/* solved problems  */}
+                {/* Re-raised Problems*/}
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Re-raised Problems</span>
 
                 {/* profile  */}
@@ -152,7 +152,7 @@ const AdminNavbar = () => {
                         {/* navigation links  */}
                         <div className='flex flex-col'>
                             {/* dashboard  */}
-                            <div className='flex gap-5 py-5 text-white bg-black bg-opacity-25 border-s-[5px] ps-[20px]'>
+                            <Link href={'/admin'} className='flex gap-5 py-5 text-white bg-black bg-opacity-25 border-s-[5px] ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
                                     src={Dashboard}
                                     alt='dashboard'
@@ -160,9 +160,9 @@ const AdminNavbar = () => {
                                     className='invert'
                                 />
                                 <span>Dashboard</span>
-                            </div>
+                            </Link>
                             {/* raise your problem  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {display(true); handleNavabrDisplay()}}>
+                            <Link href={'/admin/problem-list'} className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
                                     src={Complaints}
                                     alt='Complaints'
@@ -170,9 +170,9 @@ const AdminNavbar = () => {
                                     className='invert'
                                 />
                                 <span>Problem List</span>
-                            </div>
+                            </Link>
                             {/* problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
+                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
                                     src={OnProgress}
                                     alt='OnProgress'
@@ -182,7 +182,7 @@ const AdminNavbar = () => {
                                 <span>On Progress</span>
                             </div>
                             {/* solved problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
+                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
                                     src={Solved}
                                     alt='Solved'
@@ -193,7 +193,7 @@ const AdminNavbar = () => {
                                 <span>Re-raised Problems</span>
                             </div>
                             {/* profile  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
+                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
                                     src={Profile}
                                     alt='Profile'
@@ -204,7 +204,7 @@ const AdminNavbar = () => {
                             </div>
                         </div>
                         {/* logout button */}
-                        <div className='flex gap-5 border-t-2 border-white items-end' onClick={handleLogout}>
+                        <div className='flex gap-5 border-t-2 border-white items-end' onClick={() => {handleLogout(); handleNavabrDisplay()}}>
                             <Image 
                                 src={Logout}
                                 alt='Logout'

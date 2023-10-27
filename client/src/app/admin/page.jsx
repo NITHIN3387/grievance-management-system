@@ -7,28 +7,17 @@ import WebsiteLayout from '@layouts/WebsiteLayout'
 import authAdmin from '@utils/authAdmin'
 
 const Dashboard = () => {
-  //varibale to store the login user details
-  const [user, setUser] = useState(null)
+  //varibale to store the login admin details
+  const [admin, setAdmin] = useState(null)
 
   const router = useRouter()
   
   useEffect(() => {
-    // fetching logged in  user details
+    // fetching logged in  admin details
     const auth = async () => {
       await authAdmin()
-      .then((data) => {
-        // checking whether user is authorized or not 
-        if (data)
-            // if (data.email.split("@")[1].includes("gov.in"))  //checking whether user has access right to this page or not
-            setUser(data)
-            // else
-            //     router.replace("/login") 
-        else
-            router.replace("/login")
-      })
-      .catch((err) => {
-        console.log("fail to fetch user details\n", err);
-      })
+      .then((data) => { data ? setAdmin(data) : router.replace("/login") })   // checking whether admin is authorized or not 
+      .catch((err) => { console.log("fail to fetch admin details\n", err) })
     }
 
     auth()
@@ -36,7 +25,7 @@ const Dashboard = () => {
 
   return (
     <WebsiteLayout>
-      {user ? "Welcome " + user.name : "processing....."}
+      {admin ? "Welcome " + admin.name : "processing....."}
     </WebsiteLayout>
   )
 }

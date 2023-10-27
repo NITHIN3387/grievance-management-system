@@ -92,13 +92,16 @@ const uploadComplaints = async (req, res) => {
 const getComplaintByDepartment = async (req, res) => {
     const email = req.user.email.split('@')[1] 
     const department = email.split('.')[0]
-    const data = await complaints.where("department", "==", department).get();//checking if there are any complaints in database with the provided department
-    const complaintData = data.docs.map((doc) => ( doc.data() ))//mapping the received datas
-    if (complaintData.length) {              //if data is received we send username,userid,description and date to the admin
-        
-        res.status(200).json(complaintData);
-    } else
-        res.send({ message: 'NO complaints from the given department', status: "error" }).status(404)
+
+    await complaints.where("department", "==", department).get()      //checking if there are any complaints in database with the provided department
+    .then((data) => {
+        const complaintData = data.docs.map((doc) => ( {_id: doc.id, ...doc.data()} ))        //mapping the received datas
+        res.status(200).send({ message: 'complaint fetch succssfully', status: "success", data: complaintData});
+    })
+    .catch((err) => {
+        res.status(500).send({ message: 'fail to fetch the complaints', status: "error" })
+        console.log(err);
+    })
 }
 
 module.exports = { uploadComplaints, getComplaintByDepartment };

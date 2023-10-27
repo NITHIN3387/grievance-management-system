@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import AdminNavbar from '@components/AdminNavbar'
-import DialogBoxGrievance from '@components/DialogBoxGrievance'
+import DialogBoxGrievance from '@components/dialogoBox/DialogBoxGrievance'
 import UserNavbar from '@components/UserNavbar'
 
 const WebsiteLayout = ({children}) => {
