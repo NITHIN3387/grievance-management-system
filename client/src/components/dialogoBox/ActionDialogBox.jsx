@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import '@assets/styles/ActionBtns.css'
 
-const ActionDialogBox = ({display, complaintStatus}) => {
+const ActionDialogBox = ({display, action}) => {
     //variables to store the inputs given by the admin
-    const [status, setStatus] = useState(complaintStatus)
+    const [status, setStatus] = useState(action.status)
     const [description, setDescription] = useState('')
+    const [photo, setPhoto] = useState(null)
 
     //DOM refference to the status btns
     const actionBtnPoorRef = useRef()
@@ -34,6 +35,22 @@ const ActionDialogBox = ({display, complaintStatus}) => {
         })
 
         setStatus(status)
+    }
+
+    const handleActionSubmit = async () => {
+        let formData = new FormData()
+
+        formData.append("userId", action.userId)
+        formData.append("complaintId", action.complaintId)
+        formData.append("status", status)
+        formData.append("description", description)
+        formData.append("action-image", photo)
+        
+        await fetch(config.serverUrl + '/action/upload', {
+            method: "POST",
+            body: formData
+        })
+        .catch((err) => { console.log('fail to update action table\n', err) })
     }
 
     return (
@@ -94,8 +111,20 @@ const ActionDialogBox = ({display, complaintStatus}) => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
+                {/* upload file  */}
+                <div className="grid gap-2 mt-5">
+                    <label htmlFor="upload-photo" className="text-[1.1em]">Upload photo:</label>
+                    <input
+                        type="file"
+                        className="border border-slate-300 rounded-md p-1"
+                        id="upload-photo"
+                        name="action-image"
+                        accept="image/*"
+                        onChange={(e) => setPhoto(e.target.files[0])}
+                    />
+                </div>
                 {/* submit btn  */}
-                <button className="text-start mt-10 flex">
+                <button className="text-start mt-5 flex" onClick={handleActionSubmit}>
                     <div className="rounded-[5px] py-1 px-3 bg-blue-900 text-white hover:shadow-[2px_2px_10px_rgba(0,0,0,0.4)] focus:shadow-none transition-all ease-out delay-100">
                         Update
                     </div>
