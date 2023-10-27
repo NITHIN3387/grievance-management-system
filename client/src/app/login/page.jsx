@@ -54,6 +54,7 @@ const login = () => {
                 router.replace("/admin");
               else router.replace("/user");
             else errMsg.current.classList.remove("hidden"); //adding error effect on the invalid email or password
+            console.log("Login successfull")
           });
       } catch (err) {
         console.log("fail to login\n", err);
