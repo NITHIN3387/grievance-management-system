@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import '@assets/styles/ActionBtns.css'
+import config from "@config/serverConfig"
 
 const ActionDialogBox = ({display, action}) => {
     //variables to store the inputs given by the admin
@@ -37,7 +38,9 @@ const ActionDialogBox = ({display, action}) => {
         setStatus(status)
     }
 
-    const handleActionSubmit = async () => {
+    const handleActionSubmit = async (e) => {
+        e.preventDefault();
+
         let formData = new FormData()
 
         formData.append("userId", action.userId)
@@ -46,10 +49,11 @@ const ActionDialogBox = ({display, action}) => {
         formData.append("description", description)
         formData.append("action-image", photo)
         
-        await fetch(config.serverUrl + '/action/upload', {
-            method: "POST",
+        await fetch(config.serverUrl + '/action/update/' + action._id, {
+            method: "PUT",
             body: formData
         })
+        .then(() => display(false))
         .catch((err) => { console.log('fail to update action table\n', err) })
     }
 
@@ -61,7 +65,7 @@ const ActionDialogBox = ({display, action}) => {
             onClick={(e) => (e.target.id == "bg-blur" ? display(false) : null)}
         >
             {/* white bg  */}
-            <div className="load-dialog-box bg-white rounded-lg p-5 grid justify-center items-center">
+            <form className="load-dialog-box bg-white rounded-lg p-5 grid justify-center items-center" onSubmit={(e) => handleActionSubmit(e)}>
                 {/* heading  */}
                 <div className="font-semibold text-[1.1em]">Update the status of complaint to -</div>
                 {/* status btns  */}
@@ -124,12 +128,12 @@ const ActionDialogBox = ({display, action}) => {
                     />
                 </div>
                 {/* submit btn  */}
-                <button className="text-start mt-5 flex" onClick={handleActionSubmit}>
+                <button className="text-start mt-5 flex" onClick={(e) => handleActionSubmit(e)}>
                     <div className="rounded-[5px] py-1 px-3 bg-blue-900 text-white hover:shadow-[2px_2px_10px_rgba(0,0,0,0.4)] focus:shadow-none transition-all ease-out delay-100">
                         Update
                     </div>
                 </button>
-            </div>
+            </form>
         </div>
     )
 }

@@ -168,7 +168,7 @@ const ProblemCard = ({data, action}) => {
             </div>
 
             {/* action dialog box  */}
-            <div className=" z-10 fixed" ref={actionBoxRef}>
+            <div className="hidden z-10 fixed" ref={actionBoxRef}>
                 <ActionDialogBox display={viewActionBox} action={action}/>
             </div>
         </div>

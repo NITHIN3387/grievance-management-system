@@ -8,48 +8,9 @@ const { getStorage, getDownloadURL, uploadBytesResumable, ref } = require('@fire
 // Method: POST
 // Access: Public
 const uploadStatus = async (req, res) => {
-    initializeApp(firebaseConfig)
-
-    //getting firebase instance for the initialized app
-    const storage = getStorage()
-
     try {
         const { userId, complaintId, status, description } = req.body;
-        const photo = req.file || ""
-
-            //<----------------- storing img in firebase cloude storage ----------------------->
-            //getting storage refferace to the cloud storage
-            const storageRef = ref(storage, "grievance-images/" + Date.now() + "-" + Math.round(Math.random() * 1E9))       //for making a unique name of the photo we use uploaded date and a random number
-
-            //Create file metadata including the content type
-            const metadata = {
-                contentType: photo.mimetype
-            }
-
-            //upload the file in the bucket storage
-            await uploadBytesResumable(storageRef, photo.buffer, metadata)
-                .then(async (snapshot) => (
-                    //get the download url of the image
-                    await getDownloadURL(snapshot.ref)
-                ))
-                .then(async (imageUrl) => {
-                    //finding the department to which problem belongs to
-                    classifier(description, async (department) => {
-                        // Save the data in the complaints collection
-                        department && await complaints.add({
-                            description,
-                            date,
-                            department,
-                            imageUrl,
-                            location,
-                            // userId,
-                            // userName
-                        })
-                        .then((data) => {
-                            res.status(200).send({ message: "complaint submitted successfully", status: "success", _id: data.id })
-                        })
-                    })
-                })
+        const image = ""
 
         // Add the action to the "actions" collection
         await actions.add({
@@ -88,4 +49,62 @@ const getStatus = async (req, res) => {
     })
 }
 
-module.exports = { uploadStatus, getStatus };
+// Description: Stores status of the complaint in the "actions" collection
+// Method: PUT
+// Access: Public
+const updateStatus = async (req, res) => {
+    const actionId = req.params.id
+    const { userId, complaintId, status, description } = req.body;
+    const photo = req.file || ""
+
+    initializeApp(firebaseConfig)
+
+    //getting firebase instance for the initialized app
+    const storage = getStorage()
+
+    if (req.file) {
+        //<----------------- storing img in firebase cloude storage ----------------------->
+        //getting storage refferace to the cloud storage
+        const storageRef = ref(storage, "action-images/" + Date.now() + "-" + Math.round(Math.random() * 1E9))       //for making a unique name of the photo we use uploaded date and a random number
+        //Create file metadata including the content type
+        const metadata = {
+            contentType: photo.mimetype
+        }
+        //upload the file in the bucket storage
+        await uploadBytesResumable(storageRef, photo.buffer, metadata)
+        .then(async (snapshot) => (
+            //get the download url of the image
+            await getDownloadURL(snapshot.ref)
+        ))
+        .then(async (imageUrl) => {
+            //updating the status of the problem
+            await actions.doc(actionId).update({
+                userId,
+                complaintId,
+                status,
+                description,
+                image: imageUrl
+            })
+            .then((data) => {
+                res.status(200).send({ message: "complaint submitted successfully", status: "success", _id: data.id })
+            })
+        })
+
+    } else {
+        //updating the status of the problem
+        await actions.doc(actionId).update({
+            userId,
+            complaintId,
+            status,
+            description,
+            image: photo
+        })
+
+        res.status(200).send({
+            message: 'Status added successfully',
+            status: 'success',
+        });
+    }
+}
+
+module.exports = { uploadStatus, getStatus, updateStatus };

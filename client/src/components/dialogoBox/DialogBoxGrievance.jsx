@@ -77,11 +77,19 @@ const DialogBoxGrievance = ({display, hide}) => {
                         formData.append("complaintId", res._id)
                         formData.append("status", "pending")
                         formData.append("description", "")
-                        formData.append("action-image", null)
 
                         await fetch(config.serverUrl + '/action/upload', {
                             method: "POST",
-                            body: formData
+                            headers: {
+                                "Content-Type": "application/json",
+                                "x-access-token": "token-value",
+                            },
+                            body: JSON.stringify({
+                                userId: user._id,
+                                complaintId: res._id,
+                                status: "pending",
+                                description: ""
+                            })
                         })
                         .catch((err) => { console.log('fail to update action table\n', err) })
                     }else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
