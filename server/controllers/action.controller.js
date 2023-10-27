@@ -1,33 +1,37 @@
 const { db } = require('../config/dbConnection');
-
-
 const actions = db.collection("actions");
 
-// Description: Stores status in the "actions" collection
+// Description: Stores status of the complaint in the "actions" collection
 // Method: POST
 // Access: Public
 const uploadStatus = async (req, res) => {
-   
     try {
-        const { complaintId, userId, actionDescription, status } = req.body;
+        const { userId, complaintId, status, description } = req.body;
 
         // Add the action to the "actions" collection
-        const newActionRef = await actions.add({
-            complaintId,
+        await actions.add({
             userId,
-            actionDescription,
+            complaintId,
             status,
-        });
+            description,
+        })
 
         res.status(200).send({
             message: 'Status added successfully',
             status: 'success',
-            actionId: newActionRef.id,
         });
+        
     } catch (error) {
         res.status(500).send({ message: 'Error adding status', status: 'fail' });
         console.error('Error adding status:', error);
     }
 };
 
-module.exports = { uploadStatus };
+// Description: Stores status of the complaint in the "actions" collection
+// Method: POST
+// Access: Public
+const getStatus = (req, res) => {
+
+}
+
+module.exports = { uploadStatus, getStatus };

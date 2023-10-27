@@ -69,12 +69,12 @@ const uploadComplaints = async (req, res) => {
                             department,
                             imageUrl,
                             location,
-                            userId,
-                            userName
+                            // userId,
+                            // userName
                         })
-                            .then(() => {
-                                res.status(200).send({ message: "complaint submitted successfully", status: "success" })
-                            })
+                        .then((data) => {
+                            res.status(200).send({ message: "complaint submitted successfully", status: "success", _id: data.id })
+                        })
                     })
                 })
         } else {

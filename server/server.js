@@ -18,6 +18,7 @@ app.use(cookieParser())
 // api's
 app.use('/user', require('./routes/user.route'))        //api for user registration and authentication
 app.use('/problems', require('./routes/complaints.route'))        //api for problem table CRUD
+app.use('/action', require('./routes/action.route'))        //api for problem table CRUD
 
 app.listen(process.env.PORT, () => {
     console.log('server started at the port', process.env.PORT);

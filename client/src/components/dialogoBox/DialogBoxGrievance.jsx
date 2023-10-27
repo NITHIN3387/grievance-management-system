@@ -57,8 +57,8 @@ const DialogBoxGrievance = ({display, hide}) => {
             formData.append("description", description)
             formData.append("date", date)
             formData.append("grievance-image", photo)
-            formData.append("userId", user._id)
-            formData.append("userName", user.name)
+            // formData.append("userId", user._id)
+            // formData.append("userName", user.name)
 
             try {
                 //api for uploading the problem
@@ -67,10 +67,25 @@ const DialogBoxGrievance = ({display, hide}) => {
                     body: formData
                 })
                 .then((res) => res.json())
-                .then((res) => { 
-                    if (res.status == "success")
+                .then(async (res) => { 
+                    if (res.status == "success"){
                         hide(false)
-                    else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
+
+                        await fetch(config.serverUrl + '/action/upload', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "x-access-token": "token-value",
+                            },
+                            body: JSON.stringify({
+                                userId: user._id,
+                                complaintId: res._id,
+                                status: "pending",
+                                description: ""
+                            })
+                        })
+                        .catch((err) => { console.log('fail to update action table\n', err) })
+                    }else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
                         metaErrMsg.current.classList.remove("hidden")
                 })
             } catch (err) {

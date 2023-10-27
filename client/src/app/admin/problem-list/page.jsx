@@ -41,8 +41,19 @@ const ProblemList = () => {
             .then((res) => {setComplaints(res.data)})
         }
 
+        //fetching complaints related to the logged user department
+        // const loadComplaintsStatus = async () => {
+        //     await fetch(config.serverUrl + '/action/get', {
+        //         method: 'GET',
+        //         credentials: 'include'
+        //     })
+        //     .then((res) => res.json())
+        //     .then((res) => {setComplaints(res.data)})
+        // }
+
         auth()
         loadComplaints()
+        // loadComplaintsStatus()
     }, [])
 
     //funtion to handle the filter of complaint which has status pending
