@@ -102,7 +102,7 @@ const DialogBoxGrievance = ({display, hide}) => {
     }
 
     return (
-        <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
+        <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-10" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
             <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg xl:w-[50%] lg:w-[60%] md:w-[70%] w-[90%]">
                 <div className="text-[1.75em] font-bold">Raise your problem</div>
 

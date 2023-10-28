@@ -32,16 +32,33 @@ const uploadStatus = async (req, res) => {
     }
 };
 
-// Description: Stores status of the complaint in the "actions" collection
+// Description: fetch the status of the complaint by the complaint id
 // Method: GET
 // Access: Public
-const getStatus = async (req, res) => {
+const getStatusByComplaintId = async (req, res) => {
     const id = req.params.id 
 
     await actions.where('complaintId', '==', id).get()
     .then((doc) => {
         const data = doc.docs.map((doc) => ({_id: doc.id, ...doc.data()}))
         res.status(200).send({message: "status fetched successfully", status: "success", data: data[0]})
+    })
+    .catch((err) => {
+        res.status(500).send({message: "fail to fetch the status of the complaint", status: "fail"})
+        console.log(err);
+    })
+}
+
+// Description: fetch the complaints submitted by the authenticated user
+// Method: GET
+// Access: Private
+const getStatusByUserId = async (req, res) => {
+    const id = req.user._id 
+
+    await actions.where('userId', '==', id).get()
+    .then((doc) => {
+        const data = doc.docs.map((doc) => ({_id: doc.id, ...doc.data()}))
+        res.status(200).send({message: "status fetched successfully", status: "success", data: data})
     })
     .catch((err) => {
         res.status(500).send({message: "fail to fetch the status of the complaint", status: "fail"})
@@ -107,4 +124,4 @@ const updateStatus = async (req, res) => {
     }
 }
 
-module.exports = { uploadStatus, getStatus, updateStatus };
+module.exports = { uploadStatus, getStatusByComplaintId, updateStatus, getStatusByUserId };

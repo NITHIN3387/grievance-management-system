@@ -75,8 +75,8 @@ const Navbar = ({display}) => {
                 <Link href={'/user'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
                 {/* Raise your complaint  */}
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white cursor-pointer' onClick={() => display(true)}>Raise the problem</span>
-                {/* problems  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problems</span>
+                {/* problem Status  */}
+                <Link href={'/user/problem-status'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problem Status</Link>
                 {/* solved problems  */}
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Solved problems</span>
 
@@ -134,7 +134,7 @@ const Navbar = ({display}) => {
                 </span>
 
                 {/* bg blur effect  */}
-                <div className='fixed hidden justify-end inset-0 bg-black bg-opacity-25 backdrop-blur-sm' id='mbl-nav' ref={mobileNavabr} onClick={(e) => e.target.id == "mbl-nav" ? handleNavabrDisplay() : null}>
+                <div className='fixed hidden justify-end inset-0 bg-black bg-opacity-25 backdrop-blur-sm z-10' id='mbl-nav' ref={mobileNavabr} onClick={(e) => e.target.id == "mbl-nav" ? handleNavabrDisplay() : null}>
                     {/* navbar  */}
                     <div className='navbar-toggle-animation grid grid-rows-[4rem_1fr_3rem] w-[80%] bg-blue-950 p-5'>
                         <div className='flex justify-between items-center mb-5'>
@@ -152,7 +152,7 @@ const Navbar = ({display}) => {
                         {/* navigation links  */}
                         <div className='flex flex-col'>
                             {/* dashboard  */}
-                            <div className='flex gap-5 py-5 text-white bg-black bg-opacity-25 border-s-[5px] ps-[20px]'>
+                            <Link href={'/user'} className='flex gap-5 py-5 text-white bg-black bg-opacity-25 border-s-[5px] ps-[20px]'>
                                 <Image 
                                     src={Dashboard}
                                     alt='dashboard'
@@ -160,7 +160,7 @@ const Navbar = ({display}) => {
                                     className='invert'
                                 />
                                 <span>Dashboard</span>
-                            </div>
+                            </Link>
                             {/* raise your problem  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {display(true); handleNavabrDisplay()}}>
                                 <Image 
@@ -171,16 +171,16 @@ const Navbar = ({display}) => {
                                 />
                                 <span>Raise the problem</span>
                             </div>
-                            {/* problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
+                            {/* problem status  */}
+                            <Link href={'/user/problem-status'} className='flex gap-5 py-5 text-white ps-[20px]'>
                                 <Image 
                                     src={Complaints}
                                     alt='Complaints'
                                     width={25}
                                     className='invert'
                                 />
-                                <span>Problems</span>
-                            </div>
+                                <span>Problem status</span>
+                            </Link>
                             {/* solved problems  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]'>
                                 <Image 

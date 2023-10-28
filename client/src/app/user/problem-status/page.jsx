@@ -3,65 +3,80 @@
 import { useEffect, useRef, useState } from 'react'
 
 import WebsiteLayout from '@layouts/WebsiteLayout'
-import authAdmin from '@utils/authAdmin'
 import config from '@config/serverConfig'
-import AdminProblemCard from '@components/AdminProblemCard'
-
+import authUser from '@utils/authUser'
 import Search from '@assets/images/search.png'
 
 import '@assets/styles/ActionBtns.css'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import UserProblemCard from '@components/UserProblemCard'
 
-const ProblemList = () => {
-    const [admin, setAdmin] = useState()    //varibale to store the login admin details
+const page = () => {
+    const [user, setUser] = useState()    //varibale to store the login user details
     const [complaints, setComplaints] = useState([])
     const [statusColl, setStatusColl] = useState([])
 
     const [search, setSearch] = useState('')
+    const [poor, setPoor] = useState(false)
     const [pending, setPending] = useState(false)
     const [onProgress, setOnProgress] = useState(false)
-
-    const [refresh, setRefresh] = useState(true)
-
+    const [solved, setSolved] = useState(false)
+    
+    const filterBtnPoorRef = useRef()
     const filterBtnPendingRef = useRef()
     const filterBtnOnProgrssRef = useRef()
+    const filterBtnSolvedRef = useRef()
 
     const router = useRouter()
 
     useEffect(() => {
         // fetching logged in  admin details
         const auth = async () => {
-            await authAdmin()
-            .then((data) => { data ? setAdmin(data) : router.replace("/login") })   // checking whether admin is authorized or not 
+            await authUser()
+            .then((data) => { data ? setUser(data) : router.replace("/login") })   // checking whether user is authorized or not 
             .catch((err) => { console.log("fail to fetch admin details\n", err) })
         }
 
         //fetching complaints related to the logged user department
         const loadComplaints = async () => {
-            await fetch(config.serverUrl + '/problems/get', {
+            await fetch(config.serverUrl + '/action/get', {
                 method: 'GET',
                 credentials: 'include'
             })
             .then((res) => res.json())
             .then(async (res) => {
-                setComplaints(res.data)
+                setStatusColl(res.data)
 
                 await Promise.all(
                     res.data.map(async (data) => (
-                        await fetch(config.serverUrl + '/action/get/' + data._id, {
+                        await fetch(config.serverUrl + '/problems/get/' + data.complaintId, {
                             method: 'GET',
                         })
                         .then((res) => res.json())
                     ))
                 )
-                .then((val) => setStatusColl(val))
+                .then((val) => setComplaints(val))
             })
         }
 
         auth()
         loadComplaints()
-    }, [refresh])
+    }, [])
+
+    //funtion to handle the filter of complaint which has status pending
+    const handlePoorFilter = () => {
+        setPoor((pre) => !pre)
+
+        //adding active filter style to poor filter btn
+        if (!poor) {
+            filterBtnPoorRef.current.classList.add(`action-btn-active-0`)
+            filterBtnPoorRef.current.classList.remove(`action-btn-0`)
+        } else {
+            filterBtnPoorRef.current.classList.remove(`action-btn-active-0`)
+            filterBtnPoorRef.current.classList.add(`action-btn-0`)
+        }
+    }
 
     //funtion to handle the filter of complaint which has status pending
     const handlePendingFilter = () => {
@@ -91,25 +106,35 @@ const ProblemList = () => {
         }
     }
 
+    //funtion to handle the filter of complaint which has status on progress
+    const handleSolvedFilter = () => {
+        setSolved((pre) => !pre)
+
+        //adding active filter style to solved filter btn
+        if (!solved) {
+            filterBtnSolvedRef.current.classList.add(`action-btn-active-3`)
+            filterBtnSolvedRef.current.classList.remove(`action-btn-3`)
+        } else {
+            filterBtnSolvedRef.current.classList.remove(`action-btn-active-3`)
+            filterBtnSolvedRef.current.classList.add(`action-btn-3`)
+        }
+    }
+
     //function to filter the complaints according to the filters added by the admin
     const filter = (data, action) => {
         if (!data.description.toLowerCase().includes(search))
             return false
         
-        if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
-            return false
+        // if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
+        //     return false
 
-        if (pending && onProgress)
-            return true
+        // if (pending && onProgress)
+        //     return true
 
-        if ((pending && action.status != "pending") || (onProgress && action.status != "on progress"))
+        if ((poor && action.status != "poor") || (pending && action.status != "pending") || (onProgress && action.status != "on progress") || (solved && action.status != "solved"))
             return false
 
         return true
-    }
-
-    const refreshPage = () => {
-        setRefresh(!refresh)
     }
 
     return (
@@ -118,7 +143,7 @@ const ProblemList = () => {
                 {/* heading  */}
                 <header className='text-[2em] font-bold'>Problems</header>
                 {/* filter options and search bar  */}
-                <div className='grid sm:grid-cols-[1fr_auto] gap-5'>
+                <div className='grid gap-5'>
                     <div className='grid relative'>
                         <Image
                             src={Search}
@@ -135,23 +160,25 @@ const ProblemList = () => {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <div className='flex gap-5'>
+                    <div className='flex sm:gap-5 gap-3'>
+                        <div className='action-btn-0 border py-2 px-3 rounded-md text-center cursor-pointer' onClick={handlePoorFilter} ref={filterBtnPoorRef}>Poor</div>
                         <div className='action-btn-1 border py-2 px-3 rounded-md text-center cursor-pointer' onClick={handlePendingFilter} ref={filterBtnPendingRef}>Pending</div>
-                        <div className='action-btn-2 border py-2 px-3 rounded-md text-center cursor-pointer' onClick={handleOnProgressFilter} ref={filterBtnOnProgrssRef}>On Progress</div>
+                        <div className='action-btn-2 border py-2 px-3 rounded-md text-center cursor-pointer' onClick={handleOnProgressFilter} ref={filterBtnOnProgrssRef}>Progress</div>
+                        <div className='action-btn-3 border py-2 px-3 rounded-md text-center cursor-pointer' onClick={handleSolvedFilter} ref={filterBtnSolvedRef}>Solved</div>
                     </div>
                 </div>
                 {/* complaint list  */}
-                <div className='sm:h-[calc(100vh-17rem)] h-[calc(100vh-19.5rem)] overflow-scroll shadow-inner rounded-lg'>
+                <div className='sm:h-[calc(100vh-21rem)] h-[calc(100vh-19.5rem)] overflow-scroll shadow-inner rounded-lg'>
                     {
                         complaints.length && statusColl.length ?
-                        complaints.map((data, i) => (
-                            filter(data, statusColl[i].data) ?
-                            <AdminProblemCard 
-                                data={data}
-                                action={statusColl[i].data}
-                                refresh={refreshPage}
-                                key={data._id}
-                            /> : null
+                        complaints.map((res, i) => (
+                            filter(res.data, statusColl[i]) ?
+                            <UserProblemCard 
+                                data={res.data}
+                                action={statusColl[i]}
+                                key={res.data._id}
+                            /> 
+                            : null
                         )) :
                         <div className='text-center text-[1.75em] font-bold mt-10'>No complaints to display !!!</div>
                     }
@@ -161,4 +188,4 @@ const ProblemList = () => {
     )
 }
 
-export default ProblemList
+export default page

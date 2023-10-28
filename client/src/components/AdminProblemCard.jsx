@@ -114,7 +114,7 @@ const ProblemCard = ({data, action, refresh}) => {
                     </div>
                     }</div>
                 </div>
-                {/* date and location for desktop view */}
+                {/* date and location and status update btn for desktop view */}
                 <div className="sm:flex hidden justify-between  items-center">
                     <div className="flex gap-5">
                         {/* date */}
@@ -155,7 +155,7 @@ const ProblemCard = ({data, action, refresh}) => {
                 </div>
             </div>
 
-            {/* date and location for mobile view */}
+            {/* date and location and status update btn for mobile view */}
             <div className="sm:hidden py-[3px] bg-blue-900 text-white text-center rounded-md text-[0.8em]" onClick={() => {viewActionBox(true)}}>
                 Action
             </div>
@@ -179,17 +179,17 @@ const ProblemCard = ({data, action, refresh}) => {
             </div>
 
             {/* DocViewer dialog box  */}
-            <div className="hidden z-10 fixed" ref={viewDocRef}>
+            <div className="hidden fixed" ref={viewDocRef}>
                 <DocViewer display={viewDoc} imgUrl={data.imageUrl}/>
             </div>
 
             {/* action dialog box  */}
-            <div className="hidden z-10 fixed" ref={actionBoxRef}>
+            <div className="hidden fixed" ref={actionBoxRef}>
                 <ActionDialogBox display={viewActionBox} action={action}/>
             </div>
 
             {/* detailed view of complaint box  */}
-            <div className="hidden z-10 fixed" ref={detailedViewRef}>
+            <div className="hidden fixed" ref={detailedViewRef}>
                 <DetailViewOfCompliant display={detailedView} details={data}/>
             </div>
         </div>

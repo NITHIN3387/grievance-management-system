@@ -5,7 +5,7 @@ import config from "@config/serverConfig"
 const ActionDialogBox = ({display, action}) => {
     //variables to store the inputs given by the admin
     const [status, setStatus] = useState(action.status)
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState(action.description)
     const [photo, setPhoto] = useState(null)
 
     //DOM refference to the status btns
@@ -60,7 +60,7 @@ const ActionDialogBox = ({display, action}) => {
     return (
         // blur bg 
         <div
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-10"
             id="bg-blur"
             onClick={(e) => (e.target.id == "bg-blur" ? display(false) : null)}
         >
@@ -102,6 +102,10 @@ const ActionDialogBox = ({display, action}) => {
                     >
                         Solved
                     </div>
+                </div>
+                <div className="mt-5">
+                    <span className="font-bold">Complaint Id: </span>
+                    {action.complaintId}
                 </div>
                 {/* description  */}
                 <div className="grid gap-3 mt-10">

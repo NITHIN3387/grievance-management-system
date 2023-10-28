@@ -104,4 +104,21 @@ const getComplaintByDepartment = async (req, res) => {
     })
 }
 
-module.exports = { uploadComplaints, getComplaintByDepartment };
+// Description: fetch the complaints by its Id
+// Method: GET
+// Access: Puplic
+const getComplaintById = async (req, res) => {
+    const id = req.params.id
+
+    await complaints.doc(id).get()      //checking if there are any complaints in database with the provided department
+    .then((data) => {
+        const complaintData = {_id: data.id, ...data.data()}
+        res.status(200).send({ message: 'complaint fetch succssfully', status: "success", data: complaintData});
+    })
+    .catch((err) => {
+        res.status(500).send({ message: 'fail to fetch the complaints', status: "error" })
+        console.log(err);
+    })
+}
+
+module.exports = { uploadComplaints, getComplaintByDepartment, getComplaintById };

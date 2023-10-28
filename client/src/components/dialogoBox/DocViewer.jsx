@@ -3,7 +3,7 @@ import Image from "next/image";
 const DocViewer = ({display, imgUrl}) => {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-10"
             id="bg-blur"
             onClick={(e) => (e.target.id == "bg-blur" ? display(false, null) : null)}
         >
