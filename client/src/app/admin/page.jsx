@@ -27,13 +27,10 @@ const Dashboard = () => {
   return (
     <WebsiteLayout>
       <div>
-        <h1 className="text-3xl py-4 px-3 bg-purple-600 font-semibold text-white">
-          Admin Dashboard
-        </h1>
         <div className="flex flex-col md:flex-row">
           {" "}
           {/* Added flex-col for mobile and flex-row for desktop */}
-          <div className="w-full md:w-3/12 h-auto md:h-screen bg-blue-200 border-r-2 border-blue-400 gap-4 md:gap-0">
+          <div className="w-full md:w-1/5 h-auto md:h-screen bg-blue-200 border-r-2 border-blue-400 gap-4 md:gap-0">
             <h1 className="text-center font-medium mt-3 text-2xl">Admin</h1>
             <div className="flex flex-col items-center gap-4 mt-4">
               <div>
@@ -45,8 +42,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-9/12 p-3">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="w-full md:w-4/5 p-3">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
               {/* Replaced h-40 with h-auto to make the boxes adaptive */}
               <div className="h-auto gap-2 flex flex-col border-2 border-blue-600 bg-blue-500 p-4 text-center text-white items-center">
                 <div className="text-xl px-3">Total Problems</div>
@@ -72,7 +69,7 @@ const Dashboard = () => {
             <div className="p-3 relative">
               <div class="w-40 h-40 shadow-lg rounded-full p-4">
                 <div class="w-32 h-32  text-3xl font-semibold flex justify-center items-center">
-                  {percentage}
+                  {percentage}%
                 </div>
               </div>
               <svg class="w-40 h-40 absolute top-3 left-3">
