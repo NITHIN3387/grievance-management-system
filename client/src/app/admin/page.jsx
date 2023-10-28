@@ -22,11 +22,10 @@ const Dashboard = () => {
 
     auth();
   }, []);
-  const [percentage,setPercentage]=useState(65)
+  const [percentage, setPercentage] = useState(65);
 
   return (
     <WebsiteLayout>
-      {admin ? "Welcome " + admin.name : "Processing..."}
       <div>
         <h1 className="text-3xl py-4 px-3 bg-purple-600 font-semibold text-white">
           Admin Dashboard
@@ -76,14 +75,9 @@ const Dashboard = () => {
                   {percentage}
                 </div>
               </div>
-                <svg class="w-40 h-40 absolute top-3 left-3">
-                  <circle
-                    cx="80"
-                    cy="80"
-                    r="69"
-                    fill="none"
-                  />
-                </svg>
+              <svg class="w-40 h-40 absolute top-3 left-3">
+                <circle cx="80" cy="80" r="69" fill="none" />
+              </svg>
             </div>
           </div>
         </div>
