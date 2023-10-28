@@ -41,7 +41,7 @@ const getStatus = async (req, res) => {
     await actions.where('complaintId', '==', id).get()
     .then((doc) => {
         const data = doc.docs.map((doc) => ({_id: doc.id, ...doc.data()}))
-        res.status(200).send({message: "status fetched successfully", status: "success", data: data})
+        res.status(200).send({message: "status fetched successfully", status: "success", data: data[0]})
     })
     .catch((err) => {
         res.status(500).send({message: "fail to fetch the status of the complaint", status: "fail"})

@@ -39,18 +39,18 @@ const ProblemList = () => {
                 credentials: 'include'
             })
             .then((res) => res.json())
-            .then((res) => {
+            .then(async (res) => {
                 setComplaints(res.data)
-                // let tempStatusColl = []
 
-                res.data.forEach(async (data) => {
-                    await fetch(config.serverUrl + '/action/get/' + data._id, {
-                        method: 'GET',
-                        credentials: 'include'
-                    })
-                    .then((res) => res.json())
-                    .then((res) => {setStatusColl([...statusColl, res.data])})
-                })
+                await Promise.all(
+                    res.data.map(async (data) => (
+                        await fetch(config.serverUrl + '/action/get/' + data._id, {
+                            method: 'GET',
+                        })
+                        .then((res) => res.json())
+                    ))
+                )
+                .then((val) => setStatusColl(val))
             })
         }
 
@@ -137,10 +137,10 @@ const ProblemList = () => {
                     {
                         complaints.length && statusColl.length ?
                         complaints.map((data, i) => (
-                            filter(data, statusColl[0][i]) ?
+                            filter(data, statusColl[i].data) ?
                             <ProblemCard 
                                 data={data}
-                                action={statusColl[0][i]}
+                                action={statusColl[i].data}
                                 key={data._id}
                             /> : null
                         )) :
