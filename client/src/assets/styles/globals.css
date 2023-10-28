@@ -51,3 +51,9 @@ input[type=number] {
     transform: translateX(0);
   }
 }
+
+.description-cutoff{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}

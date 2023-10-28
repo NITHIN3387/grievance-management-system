@@ -7,13 +7,15 @@ import Pending from "@assets/images/pending.png"
 import Onprogress from "@assets/images/on-progress-yellow.png"
 import ActionDialogBox from "./dialogoBox/ActionDialogBox";
 import DocViewer from "./dialogoBox/DocViewer";
+import DetailViewOfCompliant from "./dialogoBox/DetailViewOfComplaint";
 
-const ProblemCard = ({data, action}) => {
+const ProblemCard = ({data, action, refresh}) => {
     const location = data.location.split(',')
 
     const displayViewDoc = useRef() 
     const actionBoxRef = useRef()     //DOM refference to the action box component
     const viewDocRef = useRef()     //DOM refference to the DocViewer component
+    const detailedViewRef = useRef()     //DOM refference to the Detailed view of complaint component
 
     //function to handle the display of doc viewer dialogbox
     const handleDisplayViewDoc = (display) => {
@@ -34,6 +36,7 @@ const ProblemCard = ({data, action}) => {
         } else {
             actionBoxRef.current.classList.add('hidden')
             actionBoxRef.current.classList.remove('flex')
+            refresh()
         }
     }
 
@@ -45,6 +48,17 @@ const ProblemCard = ({data, action}) => {
         } else {
             viewDocRef.current.classList.add('hidden')
             viewDocRef.current.classList.remove('flex')
+        }
+    }
+
+    //function to handle the display of detailed view of complaint dialog box
+    const detailedView = (display) => {
+        if (display) {
+            detailedViewRef.current.classList.add('flex')
+            detailedViewRef.current.classList.remove('hidden')
+        } else {
+            detailedViewRef.current.classList.add('hidden')
+            detailedViewRef.current.classList.remove('flex')
         }
     }
 
@@ -72,9 +86,11 @@ const ProblemCard = ({data, action}) => {
             {/* details  */}
             <div className="flex flex-col justify-between">
                 {/* discriptio and status  */}
-                <div className="flex justify-between gap-3">
+                <div className="grid grid-cols-[1fr_auto] gap-3">
                     {/* description  */}
-                    <div className="sm:text-[1em] text-[0.9em]">{data.description}</div>
+                    <div className="description-cutoff sm:text-[1em] text-[0.9em] sm:h-[4.9rem] h-[4rem] overflow-hidden" onClick={() => detailedView(true)}>
+                        {data.description}
+                    </div>
                     {/* status  */}
                     <div>{
                         action.status == "pending" ?
@@ -170,6 +186,11 @@ const ProblemCard = ({data, action}) => {
             {/* action dialog box  */}
             <div className="hidden z-10 fixed" ref={actionBoxRef}>
                 <ActionDialogBox display={viewActionBox} action={action}/>
+            </div>
+
+            {/* detailed view of complaint box  */}
+            <div className="hidden z-10 fixed" ref={detailedViewRef}>
+                <DetailViewOfCompliant display={detailedView} details={data}/>
             </div>
         </div>
     )

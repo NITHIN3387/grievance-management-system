@@ -75,8 +75,6 @@ const AdminNavbar = () => {
                 <Link href={'/admin'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
                 {/* Problem List */}
                 <Link href={'/admin/problem-list'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problem List</Link>
-                {/* On Progress  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>On Progress</span>
                 {/* Re-raised Problems*/}
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Re-raised Problems</span>
 
@@ -171,16 +169,6 @@ const AdminNavbar = () => {
                                 />
                                 <span>Problem List</span>
                             </Link>
-                            {/* problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
-                                <Image 
-                                    src={OnProgress}
-                                    alt='OnProgress'
-                                    width={25}
-                                    className='invert'
-                                />
-                                <span>On Progress</span>
-                            </div>
                             {/* solved problems  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
