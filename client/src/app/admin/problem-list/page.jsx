@@ -92,7 +92,7 @@ const ProblemList = () => {
         if (!data.description.toLowerCase().includes(search))
             return false
         
-        if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
+        if (!(pending ^ onProgress) && (action?.status != "pending" && action.status != "on progress"))
             return false
 
         if (pending && onProgress)
