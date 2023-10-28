@@ -11,6 +11,7 @@ import Search from '@assets/images/search.png'
 
 import '@assets/styles/ActionBtns.css'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const ProblemList = () => {
     const [admin, setAdmin] = useState()    //varibale to store the login admin details
@@ -21,8 +22,12 @@ const ProblemList = () => {
     const [pending, setPending] = useState(false)
     const [onProgress, setOnProgress] = useState(false)
 
+    const [refresh, setRefresh] = useState(true)
+
     const filterBtnPendingRef = useRef()
     const filterBtnOnProgrssRef = useRef()
+
+    const router = useRouter()
 
     useEffect(() => {
         // fetching logged in  admin details
@@ -39,28 +44,27 @@ const ProblemList = () => {
                 credentials: 'include'
             })
             .then((res) => res.json())
-            .then((res) => {
+            .then(async (res) => {
                 setComplaints(res.data)
-                // let tempStatusColl = []
 
-                res.data.forEach(async (data) => {
-                    await fetch(config.serverUrl + '/action/get/' + data._id, {
-                        method: 'GET',
-                        credentials: 'include'
-                    })
-                    .then((res) => res.json())
-                    .then((res) => {setStatusColl([...statusColl, res.data])})
-                })
+                await Promise.all(
+                    res.data.map(async (data) => (
+                        await fetch(config.serverUrl + '/action/get/' + data._id, {
+                            method: 'GET',
+                        })
+                        .then((res) => res.json())
+                    ))
+                )
+                .then((val) => setStatusColl(val))
             })
         }
 
         auth()
         loadComplaints()
-    }, [])
+    }, [refresh])
 
     //funtion to handle the filter of complaint which has status pending
     const handlePendingFilter = () => {
-        console.log();
         setPending((pre) => !pre)
 
         //adding active filter style to pending filter btn
@@ -104,6 +108,10 @@ const ProblemList = () => {
         return true
     }
 
+    const refreshPage = () => {
+        setRefresh(!refresh)
+    }
+
     return (
         <WebsiteLayout>
             <div className='grid sm:p-5 p-3 gap-7'>
@@ -137,10 +145,11 @@ const ProblemList = () => {
                     {
                         complaints.length && statusColl.length ?
                         complaints.map((data, i) => (
-                            filter(data, statusColl[0][i]) ?
+                            filter(data, statusColl[i].data) ?
                             <ProblemCard 
                                 data={data}
-                                action={statusColl[0][i]}
+                                action={statusColl[i].data}
+                                refresh={refreshPage}
                                 key={data._id}
                             /> : null
                         )) :
