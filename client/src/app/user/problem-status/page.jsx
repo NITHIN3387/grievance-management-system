@@ -124,17 +124,17 @@ const page = () => {
     const filter = (data, action) => {
         if (!data.description.toLowerCase().includes(search))
             return false
+
+        if (!poor && !pending && !onProgress && !solved)
+            return true
         
-        // if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
-        //     return false
-
-        // if (pending && onProgress)
-        //     return true
-
-        if ((poor && action.status != "poor") || (pending && action.status != "pending") || (onProgress && action.status != "on progress") || (solved && action.status != "solved"))
-            return false
-
-        return true
+        return(
+            poor && action.status == "poor" ? true :
+            pending && action.status == "pending" ? true :
+            onProgress && action.status == "on progress" ? true :
+            solved && action.status == "solved" ? true :
+            false
+        )
     }
 
     return (

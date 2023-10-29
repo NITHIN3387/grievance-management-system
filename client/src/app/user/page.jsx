@@ -33,6 +33,8 @@ const Dashboard = () => {
 
     auth()
   }, [])
+
+
   const totalProblemsCount = 10;
   const poorProblemsCount = 3;
   const pendingProblemsCount = 4;
@@ -51,9 +53,9 @@ const Dashboard = () => {
              width={200} 
              height={260} />
              <br/>
-            {user ? <p>Welcome {user.name}</p> : 'Processing.....'}
+            {user ? <p>user name: {user.name}</p> : 'Processing.....'}
             <br />
-            {user ? <p>Welcome {user.email}</p> : 'Processing.....'}
+            {user ? <p>email ID: {user.email}</p> : 'Processing.....'}
           </div>
 
           {/* Status and counts column */}

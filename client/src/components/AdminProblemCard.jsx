@@ -179,17 +179,17 @@ const ProblemCard = ({data, action, refresh}) => {
             </div>
 
             {/* DocViewer dialog box  */}
-            <div className="hidden fixed" ref={viewDocRef}>
+            <div className="hidden fixed z-10" ref={viewDocRef}>
                 <DocViewer display={viewDoc} imgUrl={data.imageUrl}/>
             </div>
 
             {/* action dialog box  */}
-            <div className="hidden fixed" ref={actionBoxRef}>
+            <div className="hidden fixed z-10" ref={actionBoxRef}>
                 <ActionDialogBox display={viewActionBox} action={action}/>
             </div>
 
             {/* detailed view of complaint box  */}
-            <div className="hidden fixed" ref={detailedViewRef}>
+            <div className="hidden fixed z-10" ref={detailedViewRef}>
                 <DetailViewOfCompliant display={detailedView} details={data}/>
             </div>
         </div>

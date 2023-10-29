@@ -14,6 +14,7 @@ import Solved from "@assets/images/solved.png"
 
 const UserProblemCard = ({data, action}) => {
     const [detail, setDetail] = useState('')
+    const [imgUrl, setImgUrl] = useState('')
 
     const displayViewDoc = useRef() 
     const detailedViewRef = useRef()     //DOM refference to the Detailed view of complaint component
@@ -31,8 +32,9 @@ const UserProblemCard = ({data, action}) => {
     }
 
     //function to handle the display of DocViewer dialog box
-    const viewDoc = (display) => {
+    const viewDoc = (display, image) => {
         if (display) {
+            setImgUrl(image)
             viewDocRef.current.classList.add('flex')
             viewDocRef.current.classList.remove('hidden')
         } else {
@@ -56,7 +58,7 @@ const UserProblemCard = ({data, action}) => {
     return (
         <div className="grid xl:grid-cols-[1fr_9fr] lg:grid-cols-[1fr_7fr] md:grid-cols-[1fr_4fr] grid-cols-[1fr_4fr] sm:gap-5 gap-2 sm:p-5 p-3 border-y odd:bg-slate-200">
             {/* document */}
-            <div className="relative grid place-items-center sm:h-[7rem] h-[4rem] border-dashed border-slate-500 border-2" onClick={() => viewDoc(true)}>
+            <div className="relative grid place-items-center sm:h-[7rem] h-[4rem] border-dashed border-slate-500 border-2" onClick={() => viewDoc(true, data.imageUrl)}>
                 <Image
                     src={data.imageUrl}
                     alt="document"
@@ -201,7 +203,7 @@ const UserProblemCard = ({data, action}) => {
             {
                 action.image.length ?
                 (
-                    <div className="relative grid place-items-center sm:h-[7rem] h-[4rem] border-dashed border-slate-500 border-2" onClick={() => viewDoc(true)}>
+                    <div className="relative grid place-items-center sm:h-[7rem] h-[4rem] border-dashed border-slate-500 border-2" onClick={() => viewDoc(true, action.image)}>
                         <Image
                             src={action.image}
                             alt="document"
@@ -243,7 +245,7 @@ const UserProblemCard = ({data, action}) => {
 
             {/* DocViewer dialog box  */}
             <div className="hidden fixed" ref={viewDocRef}>
-                <DocViewer display={viewDoc} imgUrl={data.imageUrl}/>
+                <DocViewer display={viewDoc} imgUrl={imgUrl}/>
             </div>
 
             {/* detailed view of complaint box  */}

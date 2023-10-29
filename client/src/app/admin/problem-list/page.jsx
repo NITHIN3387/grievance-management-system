@@ -20,6 +20,8 @@ const ProblemList = () => {
     const [search, setSearch] = useState('')
     const [pending, setPending] = useState(false)
     const [onProgress, setOnProgress] = useState(false)
+    
+    const [refresh, setRefresh] = useState(false)
 
     const filterBtnPendingRef = useRef()
     const filterBtnOnProgrssRef = useRef()
@@ -39,24 +41,24 @@ const ProblemList = () => {
                 credentials: 'include'
             })
             .then((res) => res.json())
-            .then((res) => {
+            .then(async (res) => {
                 setComplaints(res.data)
-                // let tempStatusColl = []
-
-                res.data.forEach(async (data) => {
-                    await fetch(config.serverUrl + '/action/get/' + data._id, {
-                        method: 'GET',
-                        credentials: 'include'
-                    })
-                    .then((res) => res.json())
-                    .then((res) => {setStatusColl([...statusColl, res.data])})
-                })
+                
+                await Promise.all(
+                    res.data.map(async (data) => (
+                        await fetch(config.serverUrl + '/action/get/' + data._id, {
+                            method: 'GET',
+                        })
+                        .then((res) => res.json())
+                    ))
+                )
+                .then((val) => {setStatusColl(val)})
             })
         }
 
         auth()
         loadComplaints()
-    }, [])
+    }, [refresh])
 
     //funtion to handle the filter of complaint which has status pending
     const handlePendingFilter = () => {
@@ -87,19 +89,21 @@ const ProblemList = () => {
         }
     }
 
+    const refreshPage = () => setRefresh(pre => !pre)
+
     //function to filter the complaints according to the filters added by the admin
     const filter = (data, action) => {
         if (!data.description.toLowerCase().includes(search))
             return false
         
-        // if (!(pending ^ onProgress) && (action?.status != "pending" && action.status != "on progress"))
-        //     return false
+        if (!(pending ^ onProgress) && (action.status != "pending" && action.status != "on progress"))
+            return false
 
-        // if (pending && onProgress)
-        //     return true
+        if (pending && onProgress)
+            return true
 
-        // if ((pending && action.status != "pending") || (onProgress && action.status != "on progress"))
-        //     return false
+        if ((pending && action.status != "pending") || (onProgress && action.status != "on progress"))
+            return false
 
         return true
     }
@@ -140,7 +144,8 @@ const ProblemList = () => {
                             filter(data, statusColl[i].data) ?
                             <AdminProblemCard 
                                 data={data}
-                                action={statusColl[0][i]}
+                                action={statusColl[i].data}
+                                refresh={refreshPage}
                                 key={data._id}
                             /> : null
                         )) :
