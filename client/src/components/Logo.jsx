@@ -10,13 +10,13 @@ const Logo = () => {
         <Image
             src={LogoImg}
             alt='logo'
-            width={55}
+            width={60}
         />
         {/* title  */}
         <div className='grid ps-5 leading-3'>
-            <span className='text-[1.2em] font-semibold tracking-wider text-blue-600'>Government</span>
-            <span className='text-[1.75em] font-bold tracking-wider'>Grievance</span>
-            <span className='text-[1.35em] font-semibold tracking-wider text-purple-600'>Management</span>
+            <span className='text-[1.25em] font-semibold tracking-wider text-blue-600'>Government</span>
+            <span className='text-[1.35em] font-bold tracking-wider'>Grievance</span>
+            <span className='text-[1.75em] font-semibold tracking-wider text-purple-600'>Management</span>
         </div>
     </div>
   )

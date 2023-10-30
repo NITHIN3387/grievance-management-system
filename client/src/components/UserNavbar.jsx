@@ -85,7 +85,7 @@ const Navbar = ({display}) => {
                     <Image 
                         src={Profile}
                         alt={'logout'}
-                        width={30}
+                        width={40}
                         className='invert'
                     />
                 </span>
@@ -97,7 +97,7 @@ const Navbar = ({display}) => {
                         <Image 
                             src={Profile}
                             alt='profile'
-                            width={25}
+                            width={40}
                         />
                         <span className='text-[1.05em] cursor-pointer'>Profile</span>
                     </div>
