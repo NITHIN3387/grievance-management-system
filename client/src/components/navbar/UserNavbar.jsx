@@ -95,7 +95,7 @@ const Navbar = ({display}) => {
                         <Image 
                             src={Profile}
                             alt='profile'
-                            width={40}
+                            width={25}
                         />
                         <span className='text-[1.05em] cursor-pointer'>Profile</span>
                     </div>
