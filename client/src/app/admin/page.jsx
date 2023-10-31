@@ -11,6 +11,7 @@ import config from "@config/serverConfig";
 
 const Dashboard = () => {
   const [admin, setAdmin] = useState(null);
+
   const [complaints, setComplaints] = useState([]);
   const [statusFrequency, setStatusFrequency] = useState([]);
   const [statusColl, setStatusColl] = useState([]);
@@ -65,7 +66,6 @@ const Dashboard = () => {
     auth();
   }, []);
 
-  const [percentage, setPercentage] = useState(65);
 
   return (
     <WebsiteLayout>
@@ -147,15 +147,31 @@ const Dashboard = () => {
                 {statusFrequency?.solved ? statusFrequency.solved : 0}
               </span>
             </div>
-            <div className="p-3 relative">
-              <div class="w-40 h-40 shadow-lg rounded-full p-4">
-                <div class="w-32 h-32  text-3xl font-semibold flex justify-center items-center">
-                  {percentage}%
+          </div>
+          <header className="text-[1.5em] font-bold my-5">Location with highest complaints</header>
+          <div className="grid sm:grid-cols-[4fr_1fr] gap-5">
+            {/* table  */}
+            <div className="flex flex-col">
+              {/* table head  */}
+              <div className="grid grid-cols-[1fr_6rem]">
+                <div className="border h-fit p-3 w-[100%] bg-slate-300 rounded-tl-lg">Location</div>
+                <div className="border h-fit p-3 text-center bg-slate-300  rounded-tr-lg">Count</div>
+              </div>
+              <div className=" overflow-y-scroll h-[calc(100vh-30rem)]">
+                {/* table row  */}
+                <div className="grid grid-cols-[1fr_6rem]">
+                  <div className="border h-fit p-3 w-[100%]">Mangalore</div>
+                  <div className="border h-fit p-3 text-center">5</div>
                 </div>
               </div>
-              <svg class="w-40 h-40 absolute top-3 left-3">
-                <circle cx="80" cy="80" r="69" fill="none" />
-              </svg>
+            </div>
+
+            {/* percentage  */}
+            <div className="p-3 flex flex-col items-center">
+              <div className="bg-green-500 h-40 w-40 grid p-5 rounded-full shadow-2xl" style={{backgroundImage: `conic-gradient(green ${parseInt(statusFrequency.solved / complaints.length * 100)}%, white 0%)`}}>
+                <div className="bg-white rounded-full flex justify-center items-center shadow-inner border text-[2em] font-bold text-green-700">{parseInt(statusFrequency.solved / complaints.length * 100)}%</div>
+              </div>
+              <header className="text-[1.5em] font-bold mt-5 text-center">Problem<br />Solve Rate</header>
             </div>
           </div>
         </div>
