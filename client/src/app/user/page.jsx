@@ -7,10 +7,13 @@ import Image from "next/image";
 import WebsiteLayout from "@layouts/WebsiteLayout";
 import Profile from "@assets/images/profile.jpg";
 import authUser from "@utils/authUser";
+import config from "@config/serverConfig";
 
 const Dashboard = () => {
   //varibale to store the login user details
   const [user, setUser] = useState([]);
+  const [complaints, setComplaints] = useState([])
+  const [statusFrequency, setStatusFrequency] = useState([])
 
   const router = useRouter();
 
@@ -27,14 +30,39 @@ const Dashboard = () => {
         });
     };
 
+    //fetching complaints related to the logged user department
+    const loadComplaints = async () => {
+      await fetch(config.serverUrl + '/action/get', {
+          method: 'GET',
+          credentials: 'include'
+      })
+      .then((res) => res.json())
+      .then(async (res) => {
+        setStatusFrequency(() => {
+          let temp = {}
+
+         for(let ele of res.data){
+            temp[ele.status] ? temp[ele.status] += 1 : temp[ele.status] = 1
+          } 
+
+          return temp
+        })
+        
+        await Promise.all(
+          res.data.map(async (data) => (
+            await fetch(config.serverUrl + '/problems/get/' + data.complaintId, {
+              method: 'GET',
+            })
+            .then((res) => res.json())
+          ))
+        )
+        .then((val) => setComplaints(val))
+      })
+    }
+
+    loadComplaints();
     auth();
   }, []);
-
-  const totalProblemsCount = 10;
-  const poorProblemsCount = 3;
-  const pendingProblemsCount = 4;
-  const onProcessProblemsCount = 2;
-  const successProblemsCount = 1;
 
   return (
     <WebsiteLayout>
@@ -80,23 +108,23 @@ const Dashboard = () => {
             <div className="grid sm:grid-cols-5 grid-cols-2 gap-5">
               <div className="flex flex-col items-center bg-blue-800 hover:bg-blue-900 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
                 <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">Number of<br />Problems Submitted</span>
-                <span className="text-[4em] font-bold">{totalProblemsCount}</span>
+                <span className="text-[4em] font-bold">{complaints.length}</span>
               </div>
               <div className="flex flex-col items-center bg-red-700 hover:bg-red-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
                 <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">Number of<br />Poor Problems</span>
-                <span className="text-[4em] font-bold">{poorProblemsCount}</span>
+                <span className="text-[4em] font-bold">{statusFrequency?.poor ? statusFrequency.poor : 0}</span>
               </div>
               <div className="flex flex-col items-center bg-gray-700 hover:bg-gray-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
                 <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">Number of<br />Pending Problems:</span>
-                <span className="text-[4em] font-bold">{pendingProblemsCount}</span>
+                <span className="text-[4em] font-bold">{statusFrequency?.pending ? statusFrequency.pending : 0}</span>
               </div>
               <div className="flex flex-col items-center bg-yellow-500 hover:bg-yellow-600 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
                 <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">Number of Problems<br /> on Progress:</span>
-                <span className="text-[4em] font-bold">{onProcessProblemsCount}</span>
+                <span className="text-[4em] font-bold">{statusFrequency["on progress"] ? statusFrequency["on progress"] : 0}</span>
               </div>
               <div className="flex flex-col items-center bg-green-700 hover:bg-green-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
                 <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">Number of<br />solved Problems:</span>
-                <span className="text-[4em] font-bold">{successProblemsCount}</span>
+                <span className="text-[4em] font-bold">{statusFrequency?.solved ? statusFrequency.solved : 0}</span>
               </div>
             </div>
           </div>
