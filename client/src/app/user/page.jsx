@@ -15,7 +15,6 @@ const Dashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // fetching logged in  user details
     const auth = async () => {
       await authUser()
         .then((data) => {
