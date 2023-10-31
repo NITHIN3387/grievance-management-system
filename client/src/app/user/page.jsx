@@ -9,6 +9,7 @@ import Profile from "@assets/images/profile.jpg";
 import authUser from "@utils/authUser";
 import config from "@config/serverConfig";
 import UserProblemCard from "@components/problemCard/UserProblemCard";
+import Loader from "@components/Loader";
 
 const Dashboard = () => {
   //varibale to store the login user details
@@ -71,6 +72,7 @@ const Dashboard = () => {
 
   return (
     <WebsiteLayout>
+      <Loader display={true}/>
       {user ? (
         <div className="grid xl:grid-cols-[17.5rem_1fr] lg:grid-cols-[15rem_1fr] h-[calc(100vh-5rem)] overflow-y-scroll">
           {/* Profile image column */}
