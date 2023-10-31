@@ -5,9 +5,9 @@ import Location from "@assets/images/location.png"
 import Date from "@assets/images/date.png"
 import Pending from "@assets/images/pending.png"
 import Onprogress from "@assets/images/on-progress-yellow.png"
-import ActionDialogBox from "./dialogoBox/ActionDialogBox";
-import DocViewer from "./dialogoBox/DocViewer";
-import DetailViewOfCompliant from "./dialogoBox/DetailViewOfComplaint";
+import ActionDialogBox from "../dialogoBox/ActionDialogBox";
+import DocViewer from "../dialogoBox/DocViewer";
+import DetailViewOfCompliant from "../dialogoBox/DetailViewOfComplaint";
 
 const ProblemCard = ({data, action, refresh}) => {
     const location = data.location.split(',')

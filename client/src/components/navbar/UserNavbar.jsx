@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Logo from './Logo'
+import Logo from '../Logo'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -77,8 +77,6 @@ const Navbar = ({display}) => {
                 <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white cursor-pointer' onClick={() => display(true)}>Raise the problem</span>
                 {/* problem Status  */}
                 <Link href={'/user/problem-status'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problem Status</Link>
-                {/* solved problems  */}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Solved problems</span>
 
                 {/* profile  */}
                 <span className='flex items-center border-s-2 border-s-white ps-4 cursor-pointer' onClick={handleProfileMoreOptionDisplay} onMouseOver={handleProfileMoreOptionDisplay} >
@@ -181,17 +179,6 @@ const Navbar = ({display}) => {
                                 />
                                 <span>Problem status</span>
                             </Link>
-                            {/* solved problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]'>
-                                <Image 
-                                    src={Solved}
-                                    alt='Solved'
-                                    width={25}
-                                    className='invert'
-                                    onClick={() => display(true)}
-                                />
-                                <span>Solved problems</span>
-                            </div>
                             {/* profile  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]'>
                                 <Image 

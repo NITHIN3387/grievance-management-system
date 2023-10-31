@@ -3,8 +3,8 @@
 import { useRef, useState } from "react"
 import Image from "next/image"
 
-import DetailViewOfCompliant from "./dialogoBox/DetailViewOfComplaint"
-import DocViewer from "./dialogoBox/DocViewer"
+import DetailViewOfCompliant from "../dialogoBox/DetailViewOfComplaint"
+import DocViewer from "../dialogoBox/DocViewer"
 
 import Date from "@assets/images/date.png"
 import Poor from "@assets/images/poor.png"
@@ -244,12 +244,12 @@ const UserProblemCard = ({data, action}) => {
             }
 
             {/* DocViewer dialog box  */}
-            <div className="hidden fixed" ref={viewDocRef}>
+            <div className="hidden fixed z-10" ref={viewDocRef}>
                 <DocViewer display={viewDoc} imgUrl={imgUrl}/>
             </div>
 
             {/* detailed view of complaint box  */}
-            <div className="hidden fixed" ref={detailedViewRef}>
+            <div className="hidden fixed z-10" ref={detailedViewRef}>
                 <DetailViewOfCompliant display={detailedView} details={detail}/>
             </div>
         </div>

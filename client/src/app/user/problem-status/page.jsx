@@ -10,7 +10,7 @@ import Search from '@assets/images/search.png'
 import '@assets/styles/ActionBtns.css'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import UserProblemCard from '@components/UserProblemCard'
+import UserProblemCard from '@components/problemCard/UserProblemCard'
 
 const page = () => {
     const [user, setUser] = useState()    //varibale to store the login user details

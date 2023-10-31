@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import WebsiteLayout from '@layouts/WebsiteLayout'
 import authAdmin from '@utils/authAdmin'
 import config from '@config/serverConfig'
-import AdminProblemCard from '@components/AdminProblemCard'
+import AdminProblemCard from '@components/problemCard/AdminProblemCard'
 
 import Search from '@assets/images/search.png'
 

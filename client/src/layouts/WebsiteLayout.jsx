@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 
-import AdminNavbar from '@components/AdminNavbar'
+import AdminNavbar from '@components/navbar/AdminNavbar'
 import DialogBoxGrievance from '@components/dialogoBox/DialogBoxGrievance'
-import UserNavbar from '@components/UserNavbar'
+import UserNavbar from '@components/navbar/UserNavbar'
 
 const WebsiteLayout = ({children}) => {
   //variable to describe the display state of the dialog box of problem submit form

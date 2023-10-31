@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Logo from './Logo'
+import Logo from '../Logo'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -75,8 +75,6 @@ const AdminNavbar = () => {
                 <Link href={'/admin'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Dashboard</Link>
                 {/* Problem List */}
                 <Link href={'/admin/problem-list'} className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Problem List</Link>
-                {/* Re-raised Problems*/}
-                <span className='xl:text-[1.25em] lg:text-[1.15rem] md:text-[1.05rem] text-white'>Re-raised Problems</span>
 
                 {/* profile  */}
                 <span className='flex items-center border-s-2 border-s-white ps-4 cursor-pointer' onClick={handleProfileMoreOptionDisplay} onMouseOver={handleProfileMoreOptionDisplay} >
@@ -132,7 +130,7 @@ const AdminNavbar = () => {
                 </span>
 
                 {/* bg blur effect  */}
-                <div className='fixed hidden justify-end inset-0 bg-black bg-opacity-25 backdrop-blur-sm' id='mbl-nav' ref={mobileNavabr} onClick={(e) => e.target.id == "mbl-nav" ? handleNavabrDisplay() : null}>
+                <div className='fixed hidden justify-end inset-0 bg-black bg-opacity-25 backdrop-blur-sm z-10' id='mbl-nav' ref={mobileNavabr} onClick={(e) => e.target.id == "mbl-nav" ? handleNavabrDisplay() : null}>
                     {/* navbar  */}
                     <div className='navbar-toggle-animation grid grid-rows-[4rem_1fr_3rem] w-[80%] bg-blue-950 p-5'>
                         <div className='flex justify-between items-center mb-5'>
@@ -169,17 +167,6 @@ const AdminNavbar = () => {
                                 />
                                 <span>Problem List</span>
                             </Link>
-                            {/* solved problems  */}
-                            <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
-                                <Image 
-                                    src={Solved}
-                                    alt='Solved'
-                                    width={25}
-                                    className='invert'
-                                    onClick={() => display(true)}
-                                />
-                                <span>Re-raised Problems</span>
-                            </div>
                             {/* profile  */}
                             <div className='flex gap-5 py-5 text-white ps-[20px]' onClick={() => {handleNavabrDisplay()}}>
                                 <Image 
