@@ -40,6 +40,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then(async (res) => {
+          console.log(res)
           setStatusFrequency(() => {
             let temp = {};
 
