@@ -176,6 +176,7 @@ const page = () => {
                             <UserProblemCard 
                                 data={res.data}
                                 action={statusColl[i]}
+                                statusDisplay={true}
                                 key={res.data._id}
                             /> 
                             : null

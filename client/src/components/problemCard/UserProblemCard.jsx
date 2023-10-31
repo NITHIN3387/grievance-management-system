@@ -12,7 +12,7 @@ import Pending from "@assets/images/pending.png"
 import OnProgress from "@assets/images/on-progress-yellow.png"
 import Solved from "@assets/images/solved.png"
 
-const UserProblemCard = ({data, action}) => {
+const UserProblemCard = ({data, action, statusDisplay}) => {
     const [detail, setDetail] = useState('')
     const [imgUrl, setImgUrl] = useState('')
 
@@ -105,7 +105,7 @@ const UserProblemCard = ({data, action}) => {
                 {data.date.split("-").reverse().join("-")}
             </div>
 
-            <div className="flex justify-center items-center font-bold">
+            {statusDisplay && (<div className="flex justify-center items-center font-bold">
                 {
                     action.status == "poor" ?
                     <>
@@ -152,10 +152,10 @@ const UserProblemCard = ({data, action}) => {
                     </>
 
                 }
-            </div>
+            </div>)}
 
             {/* status of the complaint  */}
-            <div className="grid items-center lg:w-[50%] sm:w-[80%]">
+            {statusDisplay && (<div className="grid items-center lg:w-[50%] sm:w-[80%]">
                 {
                     action.status == "poor" ?
                     <div className="grid grid-cols-[5px_1fr_5px_1fr_5px_1fr_5px] items-center">
@@ -197,11 +197,11 @@ const UserProblemCard = ({data, action}) => {
                         <div className="sm:w-[1.5rem] w-[1rem] sm:h-[1.5rem] h-[1rem] rounded-full sm:translate-x-[-0.75rem] translate-x-[-0.5rem] bg-green-500"></div>
                     </div>
                 }
-            </div>
+            </div>)}
 
             {/* display the description and img's updated by the department  */}
             {
-                action.image.length ?
+                action?.image.length && statusDisplay ?
                 (
                     <div className="relative grid place-items-center sm:h-[7rem] h-[4rem] border-dashed border-slate-500 border-2" onClick={() => viewDoc(true, action.image)}>
                         <Image
@@ -225,7 +225,7 @@ const UserProblemCard = ({data, action}) => {
             }
 
             {
-                action.description.length ?
+                action?.description.length && statusDisplay ?
                 (
                     <div className="description-cutoff sm:text-[1em] text-[0.9em] sm:h-max-[4.9rem] h-max-[4rem] overflow-hidden" onClick={() => detailedView(true, action)}>
                         {action.description}
@@ -234,7 +234,7 @@ const UserProblemCard = ({data, action}) => {
             }
 
             {
-                !action.description.length && !action.image.length?
+                (!action?.description.length && !action?.image.length) && statusDisplay?
                 (
                     <>
                         <div></div>
