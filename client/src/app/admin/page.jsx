@@ -7,7 +7,6 @@ import authAdmin from "@utils/authAdmin";
 
 import Profile from "@assets/images/profile.jpg";
 import Image from "next/image";
-import { Archivo_Narrow } from "next/font/google";
 import config from "@config/serverConfig";
 
 const Dashboard = () => {
@@ -29,37 +28,38 @@ const Dashboard = () => {
         });
     };
     const loadComplaints = async () => {
-      await fetch(config.serverUrl + "/problems/get", {
-        method: "GET",
-        credentials: "include",
+      await fetch(config.serverUrl + '/problems/get', {
+        method: 'GET',
+        credentials: 'include'
       })
-        .then((res) => res.json())
-        .then(async (res) => {
-          console.log(res)
+      .then((res) => res.json())
+      .then(async (res) => {
+          setComplaints(res.data)
+          
           await Promise.all(
-            res.data.map(
-              async (data) =>
-                await fetch(config.serverUrl + "/action/get/" + data._id, {
-                  method: "GET",
-                })
-                  .then((res) => res.json())
-                  .then(async (res) => {
-                    // console.log(res)
-                    setStatusFrequency(() => {
-                      let temp = {};
-                      for (let ele of res.data) {
-                        temp[ele.status]
-                          ? (temp[ele.status] += 1)
-                          : (temp[ele.status] = 1);
-                      }
-                      return temp;
-                    });
+              res.data.map(async (data) => (
+                  await fetch(config.serverUrl + '/action/get/' + data._id, {
+                      method: 'GET',
                   })
-            )
-          ).then((val) => {
-            setStatusColl(val);
-          });
-        });
+                  .then((res) => res.json())
+              ))
+          )
+          .then((val) => {
+            setStatusColl(val)
+
+            setStatusFrequency(() => {
+              let temp = {};
+  
+              for (let ele of val) {
+                temp[ele.data.status]
+                  ? (temp[ele.data.status] += 1)
+                  : (temp[ele.data.status] = 1);
+              }
+  
+              return temp;
+            });
+          })
+      })
     };
     loadComplaints();
     auth();
@@ -105,7 +105,6 @@ const Dashboard = () => {
                 Problems
               </span>
               <span className="text-[4em] font-bold">{statusColl.length}</span>
-              {/* {console.log(statusFrequency)} */}
             </div>
             <div className="flex flex-col items-center bg-red-700 hover:bg-red-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
               <span className="text-center text-slate-100 xl:text-[1em] lg:text-[0.74em] sm:text-[0.75em] text-[0.9rem]">
@@ -133,7 +132,9 @@ const Dashboard = () => {
                 <br /> on Progress:
               </span>
               <span className="text-[4em] font-bold">
-                {statusFrequency?.onprogress ? statusFrequency.onprogress : 0}
+                {statusFrequency["on progress"]
+                ? statusFrequency["on progress"]
+                : 0}
               </span>
             </div>
             <div className="flex flex-col items-center bg-green-700 hover:bg-green-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
@@ -143,7 +144,7 @@ const Dashboard = () => {
                 solved Problems:
               </span>
               <span className="text-[4em] font-bold">
-                {statusFrequency?.success ? statusFrequency.success : 0}
+                {statusFrequency?.solved ? statusFrequency.solved : 0}
               </span>
             </div>
             <div className="p-3 relative">
