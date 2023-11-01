@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import AdminNavbar from '@components/navbar/AdminNavbar'
 import DialogBoxGrievance from '@components/dialogoBox/DialogBoxGrievance'
 import UserNavbar from '@components/navbar/UserNavbar'
+import Footer from '@components/footer/footer'
 
 const WebsiteLayout = ({children}) => {
   //variable to describe the display state of the dialog box of problem submit form
@@ -27,7 +28,8 @@ const WebsiteLayout = ({children}) => {
       </div>
 
       {children}
-    </div>
+      <Footer/>
+      </div>
   )
 }
 
