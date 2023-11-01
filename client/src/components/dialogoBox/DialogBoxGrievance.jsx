@@ -47,8 +47,10 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
-        loading.current.classList.remove("hidden")
+        
+        console.log(photo);
         if (![description, date, photo].includes("")){
+            loading.current.classList.remove("hidden")
             e.preventDefault();
 
             metaErrMsg.current.classList.add("hidden")

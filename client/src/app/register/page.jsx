@@ -28,6 +28,7 @@ const Register = () => {
   // variables which has reference to the DOMS which is user to display error effect
   const emailDoc = useRef();
   const emailError = useRef();
+  const adminEmailError = useRef();
   const passwordError = useRef();
   const confirmPassword = useRef();
   const passwordDoc = useRef();
@@ -44,6 +45,10 @@ const Register = () => {
       passwordLenghtError.current.classList.remove("hidden");
       passwordDoc.current.classList.add("border-red-500");
       passwordDoc.current.classList.remove("border-slate-300");
+    } else if (err == "admin-email"){
+      adminEmailError.current.classList.remove("hidden");
+      emailDoc.current.classList.add("border-red-500");
+      emailDoc.current.classList.remove("border-slate-300");
     } else {
       passwordError.current.classList.remove("hidden");
       confirmPassword.current.classList.add("border-red-500");
@@ -58,10 +63,16 @@ const Register = () => {
       emailError.current.classList.value.includes("hidden") ? null : emailError.current.classList.add("hidden");
       emailDoc.current.classList.value.includes("border-red-500") ? null : emailDoc.current.classList.remove("border-red-500");
       emailDoc.current.classList.value.includes("border-slate-300") ? null : emailDoc.current.classList.add("border-slate-300");
-    } else if ((err = "to-short-password")) {
+    } else if (err == "to-short-password") {
       passwordLenghtError.current.classList.value.includes("hidden") ? null : passwordLenghtError.current.classList.add("hidden");
       passwordDoc.current.classList.value.includes("border-red-500") ? null : passwordDoc.current.classList.remove("border-red-500");
       passwordDoc.current.classList.value.includes("border-slate-300") ? null : passwordDoc.current.classList.add("border-slate-300");
+    } else if (err == "admin-email"){
+      console.log(adminEmailError.current.classList.value, adminEmailError.current.classList.value.includes("hidden"))
+      adminEmailError.current.classList.value.includes("hidden") ? null : adminEmailError.current.classList.add("hidden");
+      emailDoc.current.classList.value.includes("border-red-500") ? null : emailDoc.current.classList.remove("border-red-500");
+      emailDoc.current.classList.value.includes("border-slate-300") ? null : emailDoc.current.classList.add("border-slate-300");
+      console.log(adminEmailError.current.classList.value, adminEmailError.current.classList.value.includes("hidden"))
     } else {
       passwordError.current.classList.value.includes("hidden") ? null : passwordError.current.classList.add("hidden");
       confirmPassword.current.classList.value.includes("border-red-500") ? null : confirmPassword.current.classList.remove("border-red-500");
@@ -73,16 +84,20 @@ const Register = () => {
   const handleRegister = async (e) => {
     if (![name, email, mobile, password, confirm].includes("") && !Object.values(address).includes("")){  //checking whether any input is empty or not
       e.preventDefault(); //preventing default reload of the page when registration form is submitted
-
+      
       // calling functoins to remove the error effect
       removeErrorEffect("password-confirm");
       removeErrorEffect("email");
       removeErrorEffect("to-short-password");
+      removeErrorEffect("admin-email");
 
-      if (password.length < 8) {
+      if (email.endsWith("kar.in"))
+        //checking whether email is a admin email or not
+        addErrorEffect("admin-email");
+      else if (password.length < 8) 
         //checking whether password satisfy the minimum length
         addErrorEffect("to-short-password");
-      } else if (password === confirm) {
+      else if (password === confirm) {
         // checking whether password and confirm password matches
         try {
           // fetching the api to register the user
@@ -175,6 +190,13 @@ const Register = () => {
               ref={emailError}
             >
               * Already a user has registered with this email id
+            </p>
+            <p
+              className="text-[0.85em] text-red-500 hidden"
+              id="admin-email-error"
+              ref={adminEmailError}
+            >
+              * You can't register with this email id
             </p>
           </div>
 
