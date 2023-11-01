@@ -13,8 +13,9 @@ const Dashboard = () => {
   const [admin, setAdmin] = useState(null);
 
   const [complaints, setComplaints] = useState([]);
-  const [statusFrequency, setStatusFrequency] = useState([]);
+  const [locationFrequency, setLocationFrequency] = useState([]);
   const [statusColl, setStatusColl] = useState([]);
+  const [statusFrequency, setStatusFrequency] = useState([]);
 
   const router = useRouter();
 
@@ -28,44 +29,60 @@ const Dashboard = () => {
           console.log("Failed to fetch admin details\n", err);
         });
     };
+
     const loadComplaints = async () => {
-      await fetch(config.serverUrl + '/problems/get', {
-        method: 'GET',
-        credentials: 'include'
+      await fetch(config.serverUrl + "/problems/get", {
+        method: "GET",
+        credentials: "include",
       })
-      .then((res) => res.json())
-      .then(async (res) => {
-          setComplaints(res.data)
-          
+        .then((res) => res.json())
+        .then(async (res) => {
+          setComplaints(res.data);
+
+          setLocationFrequency(() => {
+            let temp = {};
+
+            for (let ele of res.data) {
+              const location = ele.location.split(",");
+              const dist = location[location.indexOf(" Karnataka") - 1];
+
+              temp[dist] ? (temp[dist] += 1) : (temp[dist] = 1);
+            }
+
+            temp = Object.entries(temp)
+              .sort(([, a], [, b]) => b - a)
+              .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+            return temp;
+          });
+
           await Promise.all(
-              res.data.map(async (data) => (
-                  await fetch(config.serverUrl + '/action/get/' + data._id, {
-                      method: 'GET',
-                  })
-                  .then((res) => res.json())
-              ))
-          )
-          .then((val) => {
-            setStatusColl(val)
+            res.data.map(
+              async (data) =>
+                await fetch(config.serverUrl + "/action/get/" + data._id, {
+                  method: "GET",
+                }).then((res) => res.json())
+            )
+          ).then((val) => {
+            setStatusColl(val);
 
             setStatusFrequency(() => {
               let temp = {};
-  
+
               for (let ele of val) {
                 temp[ele.data.status]
                   ? (temp[ele.data.status] += 1)
                   : (temp[ele.data.status] = 1);
               }
-  
+
               return temp;
             });
-          })
-      })
+          });
+        });
     };
     loadComplaints();
     auth();
   }, []);
-
 
   return (
     <WebsiteLayout>
@@ -133,8 +150,8 @@ const Dashboard = () => {
               </span>
               <span className="text-[4em] font-bold">
                 {statusFrequency["on progress"]
-                ? statusFrequency["on progress"]
-                : 0}
+                  ? statusFrequency["on progress"]
+                  : 0}
               </span>
             </div>
             <div className="flex flex-col items-center bg-green-700 hover:bg-green-800 text-white xl:p-4 lg:p-3 p-2 rounded-lg cursor-pointer">
@@ -148,30 +165,58 @@ const Dashboard = () => {
               </span>
             </div>
           </div>
-          <header className="text-[1.5em] font-bold my-5">Location with highest complaints</header>
+          <header className="text-[1.5em] font-bold my-5">
+            Location with highest complaints
+          </header>
           <div className="grid sm:grid-cols-[4fr_1fr] gap-5">
             {/* table  */}
             <div className="flex flex-col">
               {/* table head  */}
               <div className="grid grid-cols-[1fr_6rem]">
-                <div className="border h-fit p-3 w-[100%] bg-slate-300 rounded-tl-lg">Location</div>
-                <div className="border h-fit p-3 text-center bg-slate-300  rounded-tr-lg">Count</div>
+                <div className="border h-fit p-3 w-[100%] bg-slate-300 rounded-tl-lg">
+                  Location
+                </div>
+                <div className="border h-fit p-3 text-center bg-slate-300  rounded-tr-lg">
+                  Count
+                </div>
               </div>
               <div className=" overflow-y-scroll h-[calc(100vh-30rem)]">
-                {/* table row  */}
-                <div className="grid grid-cols-[1fr_6rem]">
-                  <div className="border h-fit p-3 w-[100%]">Mangalore</div>
-                  <div className="border h-fit p-3 text-center">5</div>
-                </div>
+                {Object.keys(locationFrequency).map((key) => (
+                  // {/* table row  */}
+                  <div className="grid grid-cols-[1fr_6rem]">
+                    <div className="border h-fit p-3 w-[100%]">{key}</div>
+                    <div className="border h-fit p-3 text-center">
+                      {locationFrequency[key]}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* percentage  */}
             <div className="p-3 flex flex-col items-center">
-              <div className="bg-green-500 h-40 w-40 grid p-5 rounded-full shadow-2xl" style={{backgroundImage: `conic-gradient(green ${parseInt(statusFrequency.solved / complaints.length * 100)}%, white 0%)`}}>
-                <div className="bg-white rounded-full flex justify-center items-center shadow-inner border text-[2em] font-bold text-green-700">{parseInt(statusFrequency.solved / complaints.length * 100)}%</div>
+              <div
+                className="bg-green-500 h-40 w-40 grid p-5 rounded-full shadow-2xl"
+                style={{
+                  backgroundImage: `conic-gradient(green ${
+                    parseInt(
+                      (statusFrequency.solved / complaints.length) * 100
+                    ) || 0
+                  }%, white 0%)`,
+                }}
+              >
+                <div className="bg-white rounded-full flex justify-center items-center shadow-inner border text-[2em] font-bold text-green-700">
+                  {parseInt(
+                    (statusFrequency.solved / complaints.length) * 100
+                  ) || 0}
+                  %
+                </div>
               </div>
-              <header className="text-[1.5em] font-bold mt-5 text-center">Problem<br />Solve Rate</header>
+              <header className="text-[1.5em] font-bold mt-5 text-center">
+                Problem
+                <br />
+                Solve Rate
+              </header>
             </div>
           </div>
         </div>

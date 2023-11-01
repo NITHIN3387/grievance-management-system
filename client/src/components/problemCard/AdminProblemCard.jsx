@@ -157,7 +157,7 @@ const ProblemCard = ({data, action, refresh}) => {
 
             {/* date and location and status update btn for mobile view */}
             <div className="sm:hidden py-[3px] bg-blue-900 text-white text-center rounded-md text-[0.8em]" onClick={() => {viewActionBox(true)}}>
-                Action
+                Update
             </div>
             <div className="sm:hidden flex justify-between">
                 {/* location  */}
