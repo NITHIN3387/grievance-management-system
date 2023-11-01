@@ -11,6 +11,7 @@ import Search from '@assets/images/search.png'
 
 import '@assets/styles/ActionBtns.css'
 import Image from 'next/image'
+import Loader from '@components/Loader'
 
 const ProblemList = () => {
     const [admin, setAdmin] = useState()    //varibale to store the login admin details
@@ -25,6 +26,8 @@ const ProblemList = () => {
 
     const filterBtnPendingRef = useRef()
     const filterBtnOnProgrssRef = useRef()
+
+    const loading = useRef()
 
     useEffect(() => {
         // fetching logged in  admin details
@@ -54,6 +57,7 @@ const ProblemList = () => {
                 )
                 .then((val) => {setStatusColl(val)})
             })
+            .then(() => loading.current.classList.add("hidden"))
         }
 
         auth()
@@ -110,6 +114,9 @@ const ProblemList = () => {
 
     return (
         <WebsiteLayout>
+            <div ref={loading}>
+                <Loader />
+            </div>
             <div className='grid sm:p-5 p-3 gap-7'>
                 {/* heading  */}
                 <header className='text-[2em] font-bold'>Problems</header>

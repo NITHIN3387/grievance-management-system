@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import '@assets/styles/ActionBtns.css'
 import config from "@config/serverConfig"
+import Loader from "@components/Loader"
 
 const ActionDialogBox = ({display, action}) => {
     //variables to store the inputs given by the admin
@@ -13,6 +14,8 @@ const ActionDialogBox = ({display, action}) => {
     const actionBtnPendingRef = useRef()
     const actionBtnOnProgrssRef = useRef()
     const actionBtnSolvedRef = useRef()
+
+    const loading = useRef()
 
     const actionBtns = [actionBtnPoorRef, actionBtnPendingRef, actionBtnOnProgrssRef, actionBtnSolvedRef]
 
@@ -39,6 +42,7 @@ const ActionDialogBox = ({display, action}) => {
     }
 
     const handleActionSubmit = async (e) => {
+        loading.current.classList.remove("hidden")
         e.preventDefault();
 
         let formData = new FormData()
@@ -55,6 +59,7 @@ const ActionDialogBox = ({display, action}) => {
         })
         .then(() => display(false))
         .catch((err) => { console.log('fail to update action table\n', err) })
+        .then(() => loading.current.classList.add("hidden"))
     }
 
     return (
@@ -64,6 +69,9 @@ const ActionDialogBox = ({display, action}) => {
             id="bg-blur"
             onClick={(e) => (e.target.id == "bg-blur" ? display(false) : null)}
         >
+            <div className="hidden" ref={loading}>
+                <Loader />
+            </div>
             {/* white bg  */}
             <form className="load-dialog-box bg-white rounded-lg p-5 grid justify-center items-center" onSubmit={(e) => handleActionSubmit(e)}>
                 {/* heading  */}

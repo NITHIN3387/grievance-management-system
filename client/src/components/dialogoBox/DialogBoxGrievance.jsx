@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import config from "@config/serverConfig";
 import auth from "@utils/authUser";
+import Loader from "@components/Loader";
 
 const DialogBoxGrievance = ({display, hide}) => {
     // checking whether we have to display dialog box or not 
@@ -20,6 +21,7 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     //DOM reference to display error effect
     const metaErrMsg = useRef() 
+    const loading = useRef()
 
     const router = useRouter()
     
@@ -45,6 +47,7 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     // function to handle the submitio of inputs given by user 
     const handleProblemSubmit = async (e) => {
+        loading.current.classList.remove("hidden")
         if (![description, date, photo].includes("")){
             e.preventDefault();
 
@@ -95,6 +98,7 @@ const DialogBoxGrievance = ({display, hide}) => {
                     }else if (res.status == "metadata error")    //displaying error if img does not has metadata with location
                         metaErrMsg.current.classList.remove("hidden")
                 })
+                .then(() => loading.current.classList.add("hidden"))
             } catch (err) {
                 console.log("fail to add\n", err);
             }
@@ -103,6 +107,9 @@ const DialogBoxGrievance = ({display, hide}) => {
 
     return (
         <div className="fixed bg-black w-[100%] h-[100%] inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-10" id="blur-bg" onClick={(e) => e.target.id == 'blur-bg' ? hide(false) : null}>
+            <div className="hidden" ref={loading}>
+                <Loader />
+            </div>
             <div className="load-dialog-box grid gap-5 bg-white p-5 rounded-lg xl:w-[50%] lg:w-[60%] md:w-[70%] w-[90%]">
                 <div className="text-[1.75em] font-bold">Raise your problem</div>
 

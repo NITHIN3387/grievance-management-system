@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import WebsiteLayout from "@layouts/WebsiteLayout";
@@ -16,6 +16,8 @@ const Dashboard = () => {
   const [user, setUser] = useState([]);
   const [complaints, setComplaints] = useState([]);
   const [statusFrequency, setStatusFrequency] = useState([]);
+
+  const loading = useRef()
 
   const router = useRouter();
 
@@ -63,7 +65,8 @@ const Dashboard = () => {
                 ).then((res) => res.json())
             )
           ).then((val) => setComplaints(val));
-        });
+        })
+        .then(() => loading.current.classList.add("hidden"))
     };
 
     loadComplaints();
@@ -72,7 +75,9 @@ const Dashboard = () => {
 
   return (
     <WebsiteLayout>
-      {/* <Loader display={true}/> */}
+      <div ref={loading}>
+        <Loader/>
+      </div>
       {user ? (
         <div className="grid xl:grid-cols-[17.5rem_1fr] lg:grid-cols-[15rem_1fr] h-[calc(100vh-5rem)] overflow-y-scroll">
           {/* Profile image column */}

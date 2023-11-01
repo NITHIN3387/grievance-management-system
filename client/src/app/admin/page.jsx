@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WebsiteLayout from "@layouts/WebsiteLayout";
 import authAdmin from "@utils/authAdmin";
 
 import Profile from "@assets/images/profile.jpg";
 import Image from "next/image";
 import config from "@config/serverConfig";
+import Loader from "@components/Loader";
 
 const Dashboard = () => {
   const [admin, setAdmin] = useState(null);
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const [statusFrequency, setStatusFrequency] = useState([]);
 
   const router = useRouter();
+  const loading = useRef()
 
   useEffect(() => {
     const auth = async () => {
@@ -46,7 +48,7 @@ const Dashboard = () => {
               const location = ele.location.split(",");
               const dist = location[location.indexOf(" Karnataka") - 1];
 
-              temp[dist] ? (temp[dist] += 1) : (temp[dist] = 1);
+              temp[dist] ? (temp[dist] += 1) : (temp[dist] = 1)
             }
 
             temp = Object.entries(temp)
@@ -78,7 +80,8 @@ const Dashboard = () => {
               return temp;
             });
           });
-        });
+        })
+        .then(() => loading.current.classList.add("hidden"))
     };
     loadComplaints();
     auth();
@@ -86,6 +89,9 @@ const Dashboard = () => {
 
   return (
     <WebsiteLayout>
+      <div ref={loading}>
+        <Loader />
+      </div>
       <div className="grid xl:grid-cols-[17.5rem_1fr] lg:grid-cols-[15rem_1fr] h-[calc(100vh-5rem)] overflow-y-scroll">
         {/* Profile image column */}
         <div className="lg:flex hidden flex-col gap-5 py-4 px-5 bg-blue-100">

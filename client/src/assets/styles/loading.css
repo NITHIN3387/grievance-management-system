@@ -1,0 +1,38 @@
+.loading-orange{
+    animation: rotate-orange 1s infinite linear;
+}
+
+@keyframes rotate-orange {
+    0%{
+        transform: rotateX(45deg) rotateY(45deg) rotateZ(0deg);
+    }
+    100%{
+        transform: rotateX(45deg) rotateY(45deg) rotateZ(360deg);
+    }
+}
+
+.loading-blue{
+    animation: rotate-blue 1s infinite linear;
+}
+
+@keyframes rotate-blue {
+    0%{
+        transform: rotateX(60deg) rotateY(0deg) rotateZ(0deg);
+    }
+    100%{
+        transform: rotateX(60deg) rotateY(0deg) rotateZ(360deg);
+    }
+}
+
+.loading-green{
+    animation: rotate-green 1s infinite linear;
+}
+
+@keyframes rotate-green {
+    0%{
+        transform: rotateX(135deg) rotateY(135deg) rotateZ(0deg);
+    }
+    100%{
+        transform: rotateX(135deg) rotateY(135deg) rotateZ(360deg);
+    }
+}
