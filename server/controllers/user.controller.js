@@ -67,8 +67,12 @@ const userLogin = async (req, res) => {
             )
             //storing the generated token in cookie
             res.cookie('token', token, {
-                maxAge: 604800000,  //7 days
+                withCredentials: true,
                 httpOnly: true,
+                sameSite: 'None',
+                //domain: 'recipe-website-frontend.vercel.app',
+                maxAge: 604800000,
+                secure: true,
             })
             .send({ message: "user loged in successfully", data: userData, status: "success"})
         } else
